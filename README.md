@@ -28,18 +28,25 @@ Progress is stored in the browser's localStorage. Nothing is uploaded and there 
 
 ## Ask AI
 
-After you answer, **Ask Claude** / **Ask ChatGPT** open a new tab with the question, your choice,
-the correct answer and a short tutoring instruction already filled in. **Copy instead** puts the
-same prompt on the clipboard for any other assistant.
+After you answer, one button hands the question — with your choice, the correct answer and a
+short tutoring instruction — to the assistant you picked in **Ask AI with** on the setup screen:
+Claude, ChatGPT, Perplexity or Gemini. The choice is remembered.
+
+**The prompt always goes to your clipboard as well as into the URL.** Prefill support is uneven
+across assistants and changes without notice, so if the tab comes up empty, just paste.
+
+**Private chat** uses the platform's own temporary-chat link where one exists. Only Claude and
+ChatGPT expose that by URL, so the other two are unavailable while it is on. A web page cannot
+force a browser incognito window — that is a browser restriction, not a missing feature.
+
+Gemini accepts no prompt from a URL at all, so for Gemini the button copies first and *then*
+offers to open it. Opening the tab immediately would steal focus before you could read the note
+telling you to paste.
 
 No API key, no sign-up, no cost beyond whatever free account you already have.
 
-The buttons appear **only after you answer** — deliberately. A beginner with an always-available
-tutor asks before struggling, and the struggle is where the learning happens. Answer first, get
-it wrong, then have it explained.
-
-Prefill support is uneven across assistants and changes without notice, so if the prompt arrives
-empty, use **Copy instead**. That route works everywhere.
+The button appears **only after you answer** — deliberately. A beginner with an always-available
+tutor asks before struggling, and the struggle is where the learning happens.
 
 ## Building
 

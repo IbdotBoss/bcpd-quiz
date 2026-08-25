@@ -83,6 +83,12 @@ p{margin:0 0 12px}
   min-height:30px;
 }
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* A mode switch, not one of a set - dashed while off so it does not read as a sibling
+   of the platform chips beside it. */
+.chip.toggle{border-style:dashed}
+.chip.toggle[aria-pressed="true"]{border-style:solid}
+.chip:disabled{opacity:.4;cursor:not-allowed}
+.chip:disabled:hover{border-color:var(--rule)}
 .lbl{font-family:var(--mono);font-size:13px;color:var(--ink-50);margin:0 0 6px;display:block}
 .note{font-size:13px;color:var(--ink-70);margin:8px 0 0}
 
@@ -391,14 +397,21 @@ const LS = "bcpd.v1";
 
 /* ============================================================ state */
 const store = {
-  seen:{},        // id -> {right:bool, picks:[]}
-  run:null,       // {mode, ids, i, picks:{}, order:{}, started, submitted}
+  seen:{},          // id -> {right:bool, picks:[]}
+  run:null,         // {mode, ids, i, picks:{}, order:{}, started, submitted}
+  ai:"claude",      // which assistant the Ask button hands off to
+  aiPrivate:false,  // use the platform's temporary-chat link where one exists
 };
 function save(){ try{ localStorage.setItem(LS, JSON.stringify(store)); }catch(e){} }
 function load(){
   try{
     const raw = localStorage.getItem(LS);
-    if(raw){ const d = JSON.parse(raw); store.seen = d.seen||{}; store.run = d.run||null; }
+    if(raw){
+      const d = JSON.parse(raw);
+      store.seen = d.seen||{}; store.run = d.run||null;
+      if(AI_TARGETS[d.ai]) store.ai = d.ai;
+      store.aiPrivate = !!d.aiPrivate;
+    }
   }catch(e){}
 }
 
@@ -561,12 +574,40 @@ function renderSetup(){
     reset.style.marginTop="12px";
     reset.onclick = () => {
       if(confirm("Reset all progress? This erases every answer you have recorded and your wrong-answer list. It cannot be undone.")){
-        store.seen = {}; store.run = null; save(); renderSetup();
+        store.seen = {}; store.run = null; save(); renderSetup();   // keeps the Ask AI choice
       }
     };
     s.append(reset);
   }
   work.append(s);
+
+  const st = el("div","card");
+  st.append(el("h3",null,"Ask AI with"));
+  // Private chat can only be honoured where the platform exposes it by URL. If the
+  // current pick cannot, fall back rather than silently ignoring the setting.
+  if(store.aiPrivate && !AI_TARGETS[store.ai].priv) store.ai = "claude";
+  const ach = el("div","chips");
+  for(const k of Object.keys(AI_TARGETS)){
+    const t = AI_TARGETS[k];
+    const off = store.aiPrivate && !t.priv;
+    const c = el("button","chip",t.name); c.type = "button";
+    c.setAttribute("aria-pressed", String(store.ai === k));
+    if(off){ c.disabled = true; c.title = t.privHint || "No temporary chat reachable by link."; }
+    c.onclick = () => { store.ai = k; save(); renderSetup(); };
+    ach.append(c);
+  }
+  const pc = el("button","chip toggle","Private chat"); pc.type = "button";
+  pc.setAttribute("aria-pressed", String(store.aiPrivate));
+  pc.onclick = () => { store.aiPrivate = !store.aiPrivate; save(); renderSetup(); };
+  ach.append(pc);
+  st.append(ach);
+  const cur = AI_TARGETS[store.ai];
+  st.append(el("p","note", store.aiPrivate
+    ? "Only Claude and ChatGPT expose a temporary chat by link, so the others are unavailable while this is on. A web page cannot force a browser incognito window — that is a browser restriction, not a missing feature."
+    : (cur.prefill
+        ? "The question is copied to your clipboard and also sent in the URL."
+        : cur.noPrefillHint + " It is copied to your clipboard automatically.")));
+  work.append(st);
 
   const a = el("div","card");
   a.append(el("h3",null,"About this bank"));
@@ -697,13 +738,36 @@ function startTick(){
 /* ============================================================ tutor handoff */
 // No API key, no backend. The question is handed to whichever assistant the user already
 // has open, as a prefilled prompt. Prefill support is uneven and changes without notice,
-// so the clipboard route is always offered too - that one works everywhere.
-const AI_TARGETS = [
-  { id:"claude",  name:"Claude",  url:q => "https://claude.ai/new?q=" + encodeURIComponent(q) },
-  { id:"chatgpt", name:"ChatGPT", url:q => "https://chatgpt.com/?q=" + encodeURIComponent(q) },
-];
+// so every handoff ALSO copies to the clipboard - that is the only route that works
+// everywhere, and it matters more here than in a hosted app because this file is meant to
+// be opened from disk.
+const AI_TARGETS = {
+  claude: {
+    name:"Claude", prefill:true,
+    url:q => "https://claude.ai/new?q=" + encodeURIComponent(q),
+    priv:q => "https://claude.ai/new?incognito=true&q=" + encodeURIComponent(q),
+  },
+  chatgpt: {
+    name:"ChatGPT", prefill:true,
+    url:q => "https://chatgpt.com/?q=" + encodeURIComponent(q),
+    priv:q => "https://chatgpt.com/?temporary-chat=true&q=" + encodeURIComponent(q),
+  },
+  perplexity: {
+    name:"Perplexity", prefill:true,
+    url:q => "https://www.perplexity.ai/search?q=" + encodeURIComponent(q),
+    priv:null,
+    privHint:"Perplexity's incognito is an in-app shortcut (Ctrl ;), so a link cannot open it.",
+  },
+  gemini: {
+    name:"Gemini", prefill:false,
+    url:() => "https://gemini.google.com/app",
+    priv:null,
+    privHint:"Gemini has no incognito mode reachable by link.",
+    noPrefillHint:"Gemini accepts no prompt from a URL, so the question has to be pasted in.",
+  },
+};
 // Browsers and receiving apps both truncate very long URLs. Past this, hand over by
-// clipboard only rather than shipping a silently cut-off prompt.
+// clipboard only rather than opening a silently cut-off prompt.
 const URL_PROMPT_CAP = 6000;
 
 function buildPrompt(q, picked){
@@ -731,44 +795,73 @@ function buildPrompt(q, picked){
   ].filter(x => x !== "").join("\n");
 }
 
+async function copyPrompt(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    return true;
+  }catch(e){
+    // The clipboard API needs a secure context, and this file is meant to be opened
+    // from disk over file:// where there isn't one. Fall back to the old selection copy.
+    try{
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return ok;
+    }catch(e2){ return false; }
+  }
+}
+
 function tutorBlock(q, picked){
   const box = el("div","tutor");
   box.append(Object.assign(el("h4"),{textContent:"Ask AI about this question"}));
+
+  const t = AI_TARGETS[store.ai] || AI_TARGETS.claude;
   const prompt = buildPrompt(q, picked);
   const tooLong = encodeURIComponent(prompt).length > URL_PROMPT_CAP;
+  const canPrefill = t.prefill && !tooLong;
 
   const row = el("div","row");
-  if(!tooLong){
-    for(const t of AI_TARGETS){
-      const b = el("button","btn tiny","Ask " + t.name);
-      b.type = "button";
-      b.onclick = () => window.open(t.url(prompt), "_blank", "noopener");
-      row.append(b);
+  const go = el("button","btn tiny", canPrefill ? `Ask ${t.name}` : `Copy for ${t.name}`);
+  go.type = "button";
+  const status = el("span","tag");
+  const open = el("button","btn tiny", `Open ${t.name}`);
+  open.type = "button"; open.hidden = true;
+  open.onclick = () => window.open(t.url(prompt), "_blank", "noopener,noreferrer");
+  row.append(go, open, status);
+  box.append(row);
+
+  go.onclick = async () => {
+    const copied = await copyPrompt(prompt);
+    if(canPrefill){
+      const url = (store.aiPrivate && t.priv) ? t.priv(prompt) : t.url(prompt);
+      window.open(url, "_blank", "noopener,noreferrer");
+      status.textContent = copied
+        ? `Opened ${t.name} — also copied, paste it if the tab came up empty.`
+        : `Opened ${t.name}.`;
+      return;
     }
-  }
-  const copy = el("button","btn tiny", tooLong ? "Copy the prompt" : "Copy instead");
-  copy.type = "button";
-  const said = el("span","tag"); said.hidden = true;
-  copy.onclick = async () => {
-    try{
-      await navigator.clipboard.writeText(prompt);
-      said.textContent = "Copied — paste it into any assistant";
-    }catch(e){
-      // clipboard is blocked on some browsers over file://; fall back to a selectable box
+    // No prefill possible. Do NOT open the tab yet: a new tab steals focus and the user
+    // would never see a note telling them to paste. Copy, say so, then let them open it.
+    if(copied){
+      status.textContent = "Copied — now open it and paste.";
+      open.hidden = false;
+    }else{
       const ta = el("textarea"); ta.value = prompt; ta.readOnly = true;
       ta.setAttribute("aria-label","Prompt to copy");
       box.append(ta); ta.select();
-      said.textContent = "Select the text above and copy it";
+      status.textContent = "Select the text above, copy it, then open it.";
+      open.hidden = false;
     }
-    said.hidden = false;
   };
-  row.append(copy, said);
-  box.append(row);
 
-  const note = el("p","note", tooLong
-    ? "This one is too long to send in a link, so copy it and paste it in."
-    : "Opens in a new tab with the question already filled in. If it arrives empty, use Copy instead.");
-  box.append(note);
+  box.append(el("p","note", tooLong
+    ? `This question is too long to travel in a link, so it is copied instead — paste it into ${t.name}.`
+    : (t.prefill
+        ? "Opens in a new tab with the question already filled in, and copies it as well."
+        : t.noPrefillHint)));
   return box;
 }
 
