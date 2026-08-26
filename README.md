@@ -118,6 +118,13 @@ What the mining found:
 The two banks were also checked against each other: **zero duplicate questions.** 190 + 133
 is 323 distinct items, not a double count.
 
+**Every one of the 133 carries an explanation**, written from the code's actual executed
+output rather than from reading the snippet. **21 are flagged defective** and say why —
+duplicate options, a stem asking for two answers where the key gives one, or code whose
+real result no option offers. A defective question is shipped with the defect named rather
+than dropped: meeting one and being told what is wrong with it teaches more than quietly
+failing it, and the flagged list is what to hand back to the tutor.
+
 ## The printable sheet
 
 - `BCPD-All-Questions.pdf` — all 323 questions across both banks, 82 pages.
