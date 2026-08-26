@@ -115,6 +115,9 @@ What the mining found:
   what changed. Two were real errors; two were malformed (one key read
   `0 (none of the above)`, another read `FALSE` — the option *text*, Excel-coerced).
 
+The two banks were also checked against each other: **zero duplicate questions.** 190 + 133
+is 323 distinct items, not a double count.
+
 ## The printable sheet
 
 `BCPD-All-Questions.pdf` — all 323 questions across both banks with the correct options

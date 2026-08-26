@@ -637,7 +637,7 @@ function renderSetup(){
   const defs = [
     ["study","Study","Answer, see the explanation immediately, ask AI. Filters below apply."],
     ["exam","Exam simulation",`90 questions, ${EXAM_MINUTES} minutes, drawn to the blueprint weights. No feedback until the end.`],
-    ["special","Special",`${nSpecial} questions from your tutor's own practice exam. Four keys corrected against the interpreter — no GUI questions in his set.`],
+    ["special","Special",`${nSpecial} questions — no GUI questions in this set.`],
     ["wrong","My wrong answers",`${wrongCount} question${wrongCount===1?"":"s"} you have got wrong.`]
   ];
   for(const [id,title,sub] of defs){
@@ -661,14 +661,6 @@ function renderSetup(){
   };
   m.append(start);
   work.append(m);
-
-  if(filters.mode === "special"){
-    const sp = el("div","card");
-    sp.append(el("h3",null,"About the Special set"));
-    sp.append(el("p","note",`${specialPool().length} questions lifted from your tutor's practice exam and deduplicated. Every one that runs was executed against CPython 3.12; four keys disagreed with the interpreter and are corrected in place, each saying what changed.`));
-    sp.append(el("p","note","His set is drawn almost entirely from PCAP, a harder Python Institute exam, and contains no GUI Programming questions at all — a domain worth 10% of the real BCPD paper. Drill it for difficulty, not for coverage."));
-    work.append(sp);
-  }
 
   if(filters.mode === "study"){
     const f = el("div","card");
@@ -810,9 +802,9 @@ function renderQuestion(){
 
   const head = el("div","qhead");
   const isTutor = String(q.src||"").startsWith("tutor");
-  head.append(el("span","tag",isTutor ? `Tutor ${q.id-1000}` : `Q${q.id}`),
-              el("span","tag",`${q.d}. ${DOMAINS[q.d]}`));
-  head.append(el("span","tag", isTutor ? q.src.replace("tutor-","from ") : `obj ${q.o}`));
+  if(!isTutor) head.append(el("span","tag",`Q${q.id}`));
+  head.append(el("span","tag",`${q.d}. ${DOMAINS[q.d]}`));
+  if(!isTutor) head.append(el("span","tag",`obj ${q.o}`));
   if(q.multi) head.append(el("span","tag",`choose ${q.ans.length}`));
   if(q.scen)  head.append(el("span","tag","scenario"));
   work.append(head);
