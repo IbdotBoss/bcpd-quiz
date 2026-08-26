@@ -120,9 +120,12 @@ is 323 distinct items, not a double count.
 
 ## The printable sheet
 
-`BCPD-All-Questions.pdf` — all 323 questions across both banks with the correct options
-marked, 82 pages. Rebuild with:
+- `BCPD-All-Questions.pdf` — all 323 questions across both banks, 82 pages.
+- `BCPD-Special-Questions.pdf` — the practice-exam set on its own, 133 questions, 32 pages.
+
+Correct options are marked in green. Rebuild with:
 
 ```bash
 python ../special-extract/make_pdf.py
+python ../special-extract/make_pdf.py --only special
 ```
