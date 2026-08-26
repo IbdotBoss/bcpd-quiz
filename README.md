@@ -95,3 +95,31 @@ the PDF. And no BeingCert document states which **Python version** is tested; th
 and verifies against 3.12. Both are worth confirming before exam day.
 
 See `questions/SOURCES.md` for the full method.
+
+## The Special set
+
+A fourth mode carries **133 questions from the tutor's own practice exam**
+(`bpcd-practice-exam.vercel.app`), used with his permission.
+
+They are kept in a separate array from the verified bank, not merged into it. The main
+bank's claim is that every code answer was proved by execution; blending in questions that
+carry someone else's key would quietly destroy that claim while appearing to strengthen it.
+
+What the mining found:
+
+- **130 of the 133 are tagged `PCAP`** in his own data — the Python Institute associate
+  exam, a tier above BCPD.
+- **His set contains no GUI Programming questions at all**, a domain worth 10% of the real
+  paper. Drill it for difficulty, not for coverage.
+- **Four keys disagreed with the interpreter** and are corrected in place, each explaining
+  what changed. Two were real errors; two were malformed (one key read
+  `0 (none of the above)`, another read `FALSE` — the option *text*, Excel-coerced).
+
+## The printable sheet
+
+`BCPD-All-Questions.pdf` — all 323 questions across both banks with the correct options
+marked, 82 pages. Rebuild with:
+
+```bash
+python ../special-extract/make_pdf.py
+```

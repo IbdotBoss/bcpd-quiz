@@ -1,0 +1,3817 @@
+[
+ {
+  "id": 1,
+  "d": 1,
+  "obj": "1.1",
+  "q": "Your cousin says \"Python is an interpreted language, so it is never compiled.\" Which statement most accurately describes what CPython actually does with a `.py` file?",
+  "code": null,
+  "opts": [
+   "It translates the source directly to machine code before running anything",
+   "It compiles the source to bytecode, then a virtual machine executes that bytecode",
+   "It executes the source text one character at a time with no intermediate form",
+   "It requires a separate compiler to be installed before any script will run"
+  ],
+  "ans": [
+   1
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "CPython compiles source to bytecode and a virtual machine executes it. The bytecode step is real and observable — it is what lands in `__pycache__`. A is wrong because CPython emits no machine code. C describes no real interpreter. D is wrong because the compiler is inside the interpreter."
+ },
+ {
+  "id": 2,
+  "d": 1,
+  "obj": "1.1",
+  "q": "After you import your own module for the first time, a new folder appears next to it. What is that folder, and what is in it?",
+  "code": null,
+  "opts": [
+   "`__pycache__`, holding compiled bytecode so later imports are faster",
+   "`__init__`, holding the package initialisation code",
+   "`__modules__`, holding a copy of the module source",
+   "`__temp__`, holding files the interpreter deletes on exit"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`__pycache__` caches the compiled bytecode as `.pyc` so a later import skips recompiling. It appears for imported modules, not for the script you run directly. `__init__.py` is a real thing but it is a file that marks a package, not this folder."
+ },
+ {
+  "id": 3,
+  "d": 1,
+  "obj": "1.3",
+  "q": "What is the output of this snippet, and what does it demonstrate?",
+  "code": "x = 10\nprint(type(x).__name__)\nx = \"ten\"\nprint(type(x).__name__)",
+  "opts": [
+   "`int` then `str` — Python is dynamically typed, so a name can be rebound to any type",
+   "`int` then `int` — once a name holds an integer it is locked to that type",
+   "`int` then `TypeError` — reassigning to another type raises",
+   "`str` then `str` — Python infers one type for the whole program"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Python is dynamically typed: the type belongs to the object, not the name, so rebinding `x` to a string is legal. This is also why type errors surface at runtime rather than before the program starts."
+ },
+ {
+  "id": 4,
+  "d": 1,
+  "obj": "1.1",
+  "q": "What is PEP 8?",
+  "code": null,
+  "opts": [
+   "The official style guide for Python code — naming, indentation, line length, spacing",
+   "A module in the standard library that reformats source files",
+   "The specification of the Python bytecode format",
+   "The proposal that introduced the `print` function"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "PEP 8 is the style guide for Python code — 4-space indents, `snake_case` for functions and variables, `CapWords` for classes. It is a convention document, not code. Tools like `flake8` check against it but are not PEP 8 itself."
+ },
+ {
+  "id": 5,
+  "d": 1,
+  "obj": "1.1",
+  "q": "Which two statements about comments in Python are true?",
+  "code": null,
+  "opts": [
+   "`#` starts a comment that runs to the end of the line",
+   "Python has a dedicated block-comment syntax written `/* ... */`",
+   "A triple-quoted string on its own line is a string expression, not a comment",
+   "Comments are stored in the compiled bytecode and readable at runtime"
+  ],
+  "ans": [
+   0,
+   2
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "`#` runs to end of line and is the only comment syntax — Python has no `/* */`. A triple-quoted string on its own line is an expression that is evaluated and discarded, which is why it works as a docstring in the right position but is not a comment. Comments are discarded at compile time."
+ },
+ {
+  "id": 6,
+  "d": 1,
+  "obj": "1.3",
+  "q": "Which of these is a valid variable name in Python?",
+  "code": null,
+  "opts": [
+   "`2nd_score`",
+   "`_total`",
+   "`class`",
+   "`total_2`"
+  ],
+  "ans": [
+   1,
+   3
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "A name may contain letters, digits and underscores but may not start with a digit, so `2nd_score` is a syntax error. `class` is a reserved keyword. Leading underscores are legal and conventionally mean \"internal\"."
+ },
+ {
+  "id": 7,
+  "d": 1,
+  "obj": "1.2",
+  "q": "You want to confirm which Python version is installed before starting a project. Which command does that from a terminal?",
+  "code": null,
+  "opts": [
+   "`python --version`",
+   "`python --check`",
+   "`pip version`",
+   "`python -v`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`python --version` (or `-V`) prints the version. Lowercase `-v` is verbose mode and floods the terminal with import tracing — a genuinely confusing thing to run by accident."
+ },
+ {
+  "id": 8,
+  "d": 1,
+  "obj": "1.2",
+  "q": "What problem does a virtual environment (`python -m venv .venv`) solve?",
+  "code": null,
+  "opts": [
+   "It gives the project its own isolated set of installed packages, so two projects can need different versions of the same library without conflict",
+   "It compiles the project to a single executable file",
+   "It runs the project in a sandbox with no access to the filesystem",
+   "It automatically installs every package the code imports"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A virtual environment gives the project its own `site-packages`, so project A can use one version of a library and project B another. It does not sandbox the filesystem and it does not install anything on its own."
+ },
+ {
+  "id": 9,
+  "d": 1,
+  "obj": "1.2",
+  "q": "Which command installs the `requests` package from PyPI?",
+  "code": null,
+  "opts": [
+   "`pip install requests`",
+   "`python install requests`",
+   "`import requests --install`",
+   "`pip get requests`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`pip install <name>` fetches from PyPI. Inside a project prefer `python -m pip install <name>`, which guarantees the pip belonging to the Python you are actually running."
+ },
+ {
+  "id": 10,
+  "d": 1,
+  "obj": "1.2",
+  "q": "What is the difference between the interactive interpreter (the REPL) and running a script?",
+  "code": null,
+  "opts": [
+   "In the REPL an expression's value is echoed automatically; in a script you must `print()` it",
+   "The REPL cannot define functions",
+   "A script cannot import modules",
+   "There is no difference — the REPL runs the file line by line"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The REPL echoes the value of any expression you type; a script does not, so a script that computes without printing appears to do nothing. That surprise is the single most common first-week confusion."
+ },
+ {
+  "id": 11,
+  "d": 1,
+  "obj": "1.2",
+  "q": "A file `hello.py` sits in the current directory. Which command runs it?",
+  "code": null,
+  "opts": [
+   "`python hello.py`",
+   "`run hello.py`",
+   "`python -c hello.py`",
+   "`execute hello.py`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`python hello.py` runs the file. If `python` is not found, the launcher `py hello.py` on Windows or `python3 hello.py` on macOS and Linux usually is."
+ },
+ {
+  "id": 12,
+  "d": 1,
+  "obj": "1.3",
+  "q": "A beginner writes this and is surprised when it fails. What is the value and type of `age` after the first line, and what happens next?",
+  "code": "age = input(\"Age? \")\nresult = age + 1",
+  "opts": [
+   "`age` is a `str`, so `age + 1` raises `TypeError` — `input()` always returns a string",
+   "`age` is an `int`, so the code works and `result` is the age plus one",
+   "`age` is a `float`, so `result` is a float",
+   "`age` is a `str`, but Python converts it automatically, so `result` works"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "mined",
+  "scen": false,
+  "exp": "`input()` always returns a string, even when the user types digits, so `\"25\" + 1` raises `TypeError: can only concatenate str`. Wrap it: `age = int(input(\"Age? \"))`. Python never converts types silently for `+` between `str` and `int`."
+ },
+ {
+  "id": 13,
+  "d": 1,
+  "obj": "1.3",
+  "q": "What is the value of `a` and `b`?",
+  "code": "a = -7 // 2\nb = -7 % 2\nprint(a, b)",
+  "opts": [
+   "`-4 1`",
+   "`-3 -1`",
+   "`-3 1`",
+   "`-4 -1`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`//` floors toward negative infinity, so `-7 // 2` is `-4`, not `-3`. Python's `%` then returns a result with the sign of the divisor, so `-7 % 2` is `1`. This differs from C and Java and is a reliable trap."
+ },
+ {
+  "id": 14,
+  "d": 1,
+  "obj": "1.3",
+  "q": "What does this print?",
+  "code": "print(2 ** 3 ** 2)",
+  "opts": [
+   "`512`",
+   "`64`",
+   "`36`",
+   "`128`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`` is right-associative, so this is `2  (3  2)` = `2  9` = `512`. Left-associative evaluation would give `8  2` = `64`, which is option B and the answer most people pick."
+ },
+ {
+  "id": 15,
+  "d": 1,
+  "obj": "1.3",
+  "q": "What is the final value of `n`?",
+  "code": "n = 5\nn += 3\nn *= 2\nn -= 1\nn //= 3\nprint(n)",
+  "opts": [
+   "`5`",
+   "`4`",
+   "`15`",
+   "`6`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Step by step: 5, then `+= 3` gives 8, `*= 2` gives 16, `-= 1` gives 15, `//= 3` gives 5. Augmented assignment applies the operator and rebinds the name."
+ },
+ {
+  "id": 16,
+  "d": 1,
+  "obj": "1.3",
+  "q": "What does this print?",
+  "code": "x, y = 1, 2\nx, y = y, x\nprint(x, y)",
+  "opts": [
+   "`2 1`",
+   "`1 2`",
+   "`2 2`",
+   "`1 1`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The right-hand side `y, x` is built into a tuple first, then unpacked into the left, so the swap needs no temporary variable. This is idiomatic Python and worth recognising on sight."
+ },
+ {
+  "id": 17,
+  "d": 1,
+  "obj": "1.3",
+  "q": "You have the string `\"12\"` and want to add `3` to it numerically. Which expression gives `15`?",
+  "code": null,
+  "opts": [
+   "`int(\"12\") + 3`",
+   "`\"12\" + 3`",
+   "`str(\"12\") + 3`",
+   "`\"12\" + str(3)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`int(\"12\")` converts the string to a number, then `+ 3` is arithmetic. `\"12\" + 3` raises `TypeError`; `\"12\" + str(3)` gives the string `\"123\"`, which is concatenation, not addition."
+ },
+ {
+  "id": 18,
+  "d": 1,
+  "obj": "1.3",
+  "q": "Which expression produces the string `Total: 7`?",
+  "code": "n = 7",
+  "opts": [
+   "`f\"Total: {n}\"`",
+   "`\"Total: n\"`",
+   "`f\"Total: n\"`",
+   "`\"Total: \" + n`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "An f-string substitutes the expression inside `{}`. Without the `f` prefix the braces are literal characters, which is why option C prints `Total: n`. Option D fails because you cannot concatenate `str` and `int`."
+ },
+ {
+  "id": 19,
+  "d": 1,
+  "obj": "1.3",
+  "q": "What does this print?",
+  "code": "x = 5\nprint(1 < x < 10)",
+  "opts": [
+   "`True`",
+   "`False`",
+   "`1`",
+   "it raises a `SyntaxError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Python allows chained comparison: `1 < x < 10` means `1 < x and x < 10`, evaluating `x` once. Most languages parse this as `(1 < x) < 10` and get a nonsense result."
+ },
+ {
+  "id": 20,
+  "d": 1,
+  "obj": "1.4",
+  "q": "What is the value of `i` after this runs?",
+  "code": "i = 0\nwhile i != 0:\n    i = i - 1\nelse:\n    i = i + 1",
+  "opts": [
+   "`1`",
+   "`0`",
+   "`2`",
+   "the variable becomes unavailable outside the loop"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "mined",
+  "scen": false,
+  "exp": "`while ... else` runs the `else` block when the loop finishes without `break`. Here the condition is false immediately, so the body never runs, the loop ends normally, and `else` executes `i = i + 1`, giving 1. Practice sites key this question three different ways and one popular copy renders `!=` with a space as `! =`, which would be a `SyntaxError` and is a typesetting artifact, not the question."
+ },
+ {
+  "id": 21,
+  "d": 1,
+  "obj": "1.4",
+  "q": "What does this print?",
+  "code": "for n in range(5):\n    if n == 3:\n        break\nelse:\n    print(\"finished\")\nprint(\"done\")",
+  "opts": [
+   "`done`",
+   "`finished` then `done`",
+   "`done` then `finished`",
+   "`finished` only"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`for ... else` runs the `else` only if the loop was never broken out of. The `break` at `n == 3` fires, so `finished` never prints. Read `else` here as \"no break\"."
+ },
+ {
+  "id": 22,
+  "d": 1,
+  "obj": "1.4",
+  "q": "What does `list(range(2, 10, 3))` produce?",
+  "code": null,
+  "opts": [
+   "`[2, 5, 8]`",
+   "`[2, 5, 8, 11]`",
+   "`[3, 6, 9]`",
+   "`[2, 4, 6, 8]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`range(start, stop, step)` excludes the stop value. From 2 in steps of 3: 2, 5, 8 — the next would be 11, which is past 10. The exclusive endpoint is the standard off-by-one source."
+ },
+ {
+  "id": 23,
+  "d": 1,
+  "obj": "1.4",
+  "q": "What does this print?",
+  "code": "total = 0\nfor n in range(6):\n    if n % 2 == 0:\n        continue\n    if n > 4:\n        break\n    total += n\nprint(total)",
+  "opts": [
+   "`4`",
+   "`9`",
+   "`6`",
+   "`1`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`continue` skips even numbers, so only 1, 3, 5 reach the second test. `break` fires at 5 before it is added. Total is 1 + 3 = 4."
+ },
+ {
+  "id": 24,
+  "d": 1,
+  "obj": "1.4",
+  "q": "What is `pass` for?",
+  "code": null,
+  "opts": [
+   "It is a statement that does nothing, used where the syntax requires a statement but no action is wanted",
+   "It skips the rest of the current loop iteration",
+   "It exits the enclosing loop immediately",
+   "It returns `None` from the enclosing function"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`pass` is the null statement — it does nothing, and exists because Python's block syntax requires at least one statement. Use it for a stub class or an empty `except`. `continue` and `break` are the loop controls."
+ },
+ {
+  "id": 25,
+  "d": 1,
+  "obj": "1.4",
+  "q": "What does this print?",
+  "code": "for i in range(3):\n    for j in range(3):\n        if j == 1:\n            break\n        print(i, j)",
+  "opts": [
+   "`0 0` `1 0` `2 0`",
+   "`0 0` only",
+   "`0 0` `0 1` `0 2`",
+   "nothing"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`break` exits only the innermost loop, so each outer iteration prints once at `j == 0` then breaks. To leave both loops you need a flag, a `return`, or an `else` clause on the outer loop."
+ },
+ {
+  "id": 26,
+  "d": 1,
+  "obj": "1.4",
+  "q": "A grading script gives the wrong letter for a score of 95. What is wrong?",
+  "code": "score = 95\nif score >= 50:\n    grade = \"Pass\"\nelif score >= 90:\n    grade = \"Distinction\"\nelse:\n    grade = \"Fail\"\nprint(grade)",
+  "opts": [
+   "The first true branch wins, so `score >= 50` matches first and the Distinction branch can never be reached — order the conditions from most specific to least",
+   "`elif` cannot follow a branch that assigned a variable",
+   "`score >= 90` is false for 95",
+   "The `else` branch always runs last regardless"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "An `if/elif` chain stops at the first true test. `95 >= 50` is true, so `grade` becomes `Pass` and the Distinction branch is unreachable for every score. Order the tests from most specific to least, or test `score >= 90` first."
+ },
+ {
+  "id": 27,
+  "d": 2,
+  "obj": "2.1",
+  "q": "What does this print?",
+  "code": "nums = [1, 2, 3]\nmore = nums\nmore.append(4)\nprint(nums)",
+  "opts": [
+   "`[1, 2, 3, 4]` — both names refer to the same list object",
+   "`[1, 2, 3]` — `more` is a copy",
+   "`[4]`",
+   "it raises a `TypeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Assignment binds another name to the same object; it does not copy. Mutating through either name is visible through both. This aliasing is the most common beginner data-structure bug."
+ },
+ {
+  "id": 28,
+  "d": 2,
+  "obj": "2.1",
+  "q": "You want `copy` to be an independent list so appending to it leaves `nums` unchanged. Which two do that?",
+  "code": null,
+  "opts": [
+   "`copy = nums[:]`",
+   "`copy = nums`",
+   "`copy = list(nums)`",
+   "`copy = nums.append`"
+  ],
+  "ans": [
+   0,
+   2
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "Both `nums[:]` and `list(nums)` build a new list. `copy = nums` aliases. `nums.append` without parentheses binds the method object itself, which is legal but does nothing useful. Both copies here are shallow — nested objects are still shared."
+ },
+ {
+  "id": 29,
+  "d": 2,
+  "obj": "2.1",
+  "q": "What does this print?",
+  "code": "letters = [\"a\", \"b\", \"c\", \"d\", \"e\"]\nprint(letters[1:4])",
+  "opts": [
+   "`['b', 'c', 'd']`",
+   "`['b', 'c', 'd', 'e']`",
+   "`['a', 'b', 'c', 'd']`",
+   "`['b', 'c']`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Slicing includes the start index and excludes the stop, so `[1:4]` gives indices 1, 2 and 3."
+ },
+ {
+  "id": 30,
+  "d": 2,
+  "obj": "2.1",
+  "q": "What does this print?",
+  "code": "nums = [3, 1, 2]\nresult = nums.sort()\nprint(result)",
+  "opts": [
+   "`None` — `list.sort()` sorts in place and returns `None`",
+   "`[1, 2, 3]`",
+   "`[3, 1, 2]`",
+   "it raises an `AttributeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`list.sort()` mutates in place and returns `None`, so assigning its result throws away the list and keeps `None`. The pattern `nums = nums.sort()` silently destroys data and is worth recognising."
+ },
+ {
+  "id": 31,
+  "d": 2,
+  "obj": "2.1",
+  "q": "You need the sorted values but must leave the original list untouched. Which do you use?",
+  "code": null,
+  "opts": [
+   "`sorted(nums)`",
+   "`nums.sort()`",
+   "`nums.sorted()`",
+   "`reverse(nums)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`sorted()` is the built-in that returns a new sorted list and leaves the original alone. There is no `nums.sorted()` method, and `reverse()` is a list method that reverses in place."
+ },
+ {
+  "id": 32,
+  "d": 2,
+  "obj": "2.1",
+  "q": "What does this print?",
+  "code": "nums = [1, 2, 3, 4]\nprint([n * 2 for n in nums if n % 2 == 0])",
+  "opts": [
+   "`[4, 8]`",
+   "`[2, 4, 6, 8]`",
+   "`[2, 6]`",
+   "`[4, 8, 12, 16]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The comprehension filters first with the `if`, then applies the expression, so only 2 and 4 survive and become 4 and 8."
+ },
+ {
+  "id": 33,
+  "d": 2,
+  "obj": "2.2",
+  "q": "Which two statements about tuples are true?",
+  "code": null,
+  "opts": [
+   "A tuple is immutable — you cannot add, remove or replace its elements",
+   "A tuple can be used as a dictionary key if all its elements are hashable",
+   "A tuple has an `append()` method",
+   "Tuples cannot contain elements of different types"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "Tuples are immutable, which is exactly what makes them hashable and therefore usable as dictionary keys when their contents are hashable too. They have no `append()`, and they can hold mixed types freely."
+ },
+ {
+  "id": 34,
+  "d": 2,
+  "obj": "2.2",
+  "q": "What is the type of `x`?",
+  "code": "x = (5)",
+  "opts": [
+   "`int` — parentheses alone do not make a tuple; a trailing comma does",
+   "`tuple`",
+   "`list`",
+   "`str`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The comma makes a tuple, not the parentheses. `(5)` is just `5` in brackets; `(5,)` is a one-element tuple. This bites when returning a single value you meant to be a tuple."
+ },
+ {
+  "id": 35,
+  "d": 2,
+  "obj": "2.2",
+  "q": "What does this print?",
+  "code": "t = (1, 2, 3)\ntry:\n    t[0] = 9\n    print(\"changed\")\nexcept TypeError:\n    print(\"immutable\")",
+  "opts": [
+   "`immutable`",
+   "`changed`",
+   "nothing",
+   "it raises an unhandled `TypeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Item assignment on a tuple raises `TypeError: 'tuple' object does not support item assignment`, which the handler catches. Note it is `TypeError`, not `AttributeError`."
+ },
+ {
+  "id": 36,
+  "d": 2,
+  "obj": "2.3",
+  "q": "What does this print?",
+  "code": "person = {\"name\": \"Ada\", \"age\": 36}\nprint(person.get(\"email\", \"none\"))",
+  "opts": [
+   "`none` — `get()` returns the default instead of raising when the key is missing",
+   "it raises a `KeyError`",
+   "`None`",
+   "`email`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`get(key, default)` returns the default when the key is missing instead of raising. With no default it returns `None`."
+ },
+ {
+  "id": 37,
+  "d": 2,
+  "obj": "2.3",
+  "q": "What is the difference between `person[\"email\"]` and `person.get(\"email\")` when the key is absent?",
+  "code": null,
+  "opts": [
+   "The subscript raises `KeyError`; `get()` returns `None`",
+   "Both return `None`",
+   "Both raise `KeyError`",
+   "The subscript returns `None`; `get()` raises `KeyError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Subscripting a missing key raises `KeyError`; `get()` returns `None`. Choose the subscript when a missing key is a bug you want to hear about, and `get()` when absence is normal."
+ },
+ {
+  "id": 38,
+  "d": 2,
+  "obj": "2.3",
+  "q": "What does this print?",
+  "code": "scores = {\"a\": 1, \"b\": 2}\nscores[\"c\"] = 3\nscores[\"a\"] = 9\nprint(len(scores), scores[\"a\"])",
+  "opts": [
+   "`3 9`",
+   "`4 1`",
+   "`3 1`",
+   "`4 9`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Assigning a new key adds it; assigning an existing key replaces the value. So the dict has three keys and `\"a\"` is 9."
+ },
+ {
+  "id": 39,
+  "d": 2,
+  "obj": "2.3",
+  "q": "Which loop prints each key with its value?",
+  "code": "scores = {\"a\": 1, \"b\": 2}",
+  "opts": [
+   "`for k, v in scores.items(): print(k, v)`",
+   "`for k, v in scores: print(k, v)`",
+   "`for k in scores.values(): print(k, scores[k])`",
+   "`for k, v in scores.keys(): print(k, v)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`.items()` yields `(key, value)` pairs, which unpack into `k, v`. Iterating the dict directly yields keys only, so B fails to unpack, and `.values()` yields values, so C indexes with the wrong thing."
+ },
+ {
+  "id": 40,
+  "d": 2,
+  "obj": "2.4",
+  "q": "What does this print?",
+  "code": "nums = [1, 2, 2, 3, 3, 3]\nprint(len(set(nums)))",
+  "opts": [
+   "`3`",
+   "`6`",
+   "`1`",
+   "`2`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "A set discards duplicates, leaving `{1, 2, 3}` — length 3. `len(set(x))` is the idiomatic way to count distinct values."
+ },
+ {
+  "id": 41,
+  "d": 2,
+  "obj": "2.4",
+  "q": "What do these two sets produce?",
+  "code": "a = {1, 2, 3}\nb = {3, 4}\nprint(a & b, a | b)",
+  "opts": [
+   "`{3} {1, 2, 3, 4}`",
+   "`{1, 2} {3}`",
+   "`{3, 4} {1, 2}`",
+   "it raises a `TypeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`&` is intersection (members of both) and `|` is union (members of either). `-` gives difference and `^` symmetric difference."
+ },
+ {
+  "id": 42,
+  "d": 2,
+  "obj": "2.4",
+  "q": "Which two statements about sets are true?",
+  "code": null,
+  "opts": [
+   "A set stores no duplicate values",
+   "A set does not support indexing such as `s[0]`",
+   "A set preserves the insertion order of its elements",
+   "A set can contain a list as an element"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "Sets hold no duplicates and are unordered, so there is no indexing and no reliable insertion order. Elements must be hashable, which is why a list cannot go in a set but a tuple can."
+ },
+ {
+  "id": 43,
+  "d": 2,
+  "obj": "2.4",
+  "q": "What is the type of `x`, and why does it catch people out?",
+  "code": "x = {}",
+  "opts": [
+   "`dict` — `{}` is an empty dictionary; an empty set must be written `set()`",
+   "`set`",
+   "`list`",
+   "`tuple`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`{}` is an empty dictionary — dictionaries got the braces first. An empty set has to be `set()`. Non-empty `{1, 2}` is a set, which makes the empty case inconsistent-looking and easy to get wrong."
+ },
+ {
+  "id": 44,
+  "d": 2,
+  "obj": "2.1",
+  "q": "A stock system must hold the ordered sequence of every scan, allow duplicates, and be edited in place. Which structure fits?",
+  "code": null,
+  "opts": [
+   "A list",
+   "A set",
+   "A tuple",
+   "A frozenset"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Ordered, duplicates allowed and mutable is the definition of a list. A set loses order and duplicates, a tuple cannot be edited, and a frozenset is an immutable set."
+ },
+ {
+  "id": 45,
+  "d": 3,
+  "obj": "3.1",
+  "q": "What is the relationship between a class and an object?",
+  "code": null,
+  "opts": [
+   "A class is the blueprint; an object is a concrete instance built from it",
+   "An object is the blueprint; a class is one instance of it",
+   "They are two names for the same thing",
+   "A class can exist only inside an object"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A class describes structure and behaviour; an object is one concrete thing built from it. `Dog` is the class, `Rex` is the object."
+ },
+ {
+  "id": 46,
+  "d": 3,
+  "obj": "3.1",
+  "q": "Which of these is *not* one of the commonly listed pillars of object-oriented programming?",
+  "code": null,
+  "opts": [
+   "Compilation",
+   "Encapsulation",
+   "Inheritance",
+   "Polymorphism"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Compilation is a build step, not an OOP principle. The pillars usually listed are encapsulation, inheritance, polymorphism and abstraction."
+ },
+ {
+  "id": 47,
+  "d": 3,
+  "obj": "3.2",
+  "q": "What does this print?",
+  "code": "class Dog:\n    species = \"canine\"\n\n    def __init__(self, name):\n        self.name = name\n\na = Dog(\"Rex\")\nb = Dog(\"Bo\")\nprint(a.species, b.species, a.name, b.name)",
+  "opts": [
+   "`canine canine Rex Bo`",
+   "`canine canine Bo Bo`",
+   "`Rex Bo Rex Bo`",
+   "it raises an `AttributeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`species` is defined in the class body, so it is a class attribute shared by every instance. `name` is assigned on `self` in `__init__`, so each instance has its own."
+ },
+ {
+  "id": 48,
+  "d": 3,
+  "obj": "3.2",
+  "q": "What does this print, and why is it a classic trap?",
+  "code": "class Counter:\n    total = 0\n\n    def bump(self):\n        Counter.total += 1\n\nx, y = Counter(), Counter()\nx.bump()\ny.bump()\nprint(x.total, y.total)",
+  "opts": [
+   "`2 2` - `total` is a class variable shared by every instance",
+   "`1 1` - each instance gets its own copy",
+   "`1 2`",
+   "`0 0`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`Counter.total` names the class attribute, so both calls increment the same counter and both instances read the same value. Had `bump` used `self.total += 1` it would have created a separate instance attribute on first assignment and printed `1 1`."
+ },
+ {
+  "id": 49,
+  "d": 3,
+  "obj": "3.3",
+  "q": "What does this print?",
+  "code": "class Box:\n    def __init__(self):\n        self.items = []\n\np = Box()\nq = Box()\np.items.append(\"nail\")\nprint(len(p.items), len(q.items))",
+  "opts": [
+   "`1 0` - each instance gets its own `items` list because it is created in `__init__`",
+   "`1 1`",
+   "`0 0`",
+   "`2 0`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The list is created fresh inside `__init__` on each instantiation, so it belongs to the instance. Had `items = []` been written in the class body instead, every instance would share one list - the classic mutable-class-attribute bug."
+ },
+ {
+  "id": 50,
+  "d": 3,
+  "obj": "3.3",
+  "q": "What does this print?",
+  "code": "class Point:\n    pass\n\na = Point()\nb = Point()\nc = a\nprint(a is b, a is c)",
+  "opts": [
+   "`False True`",
+   "`True True`",
+   "`False False`",
+   "`True False`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Each call to `Point()` builds a distinct object, so `a is b` is false. `c = a` binds another name to the same object, so `a is c` is true. `is` compares identity, `==` compares value."
+ },
+ {
+  "id": 51,
+  "d": 3,
+  "obj": "3.4",
+  "q": "Which two statements about `__init__` are true?",
+  "code": null,
+  "opts": [
+   "It is called automatically straight after the new instance is created",
+   "It is the method that allocates and returns the new object",
+   "Its first parameter is the instance, conventionally named `self`",
+   "A class is invalid without an explicit `__init__`"
+  ],
+  "ans": [
+   0,
+   2
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "`__init__` initialises an already-created instance and receives it as `self`. Allocation is `__new__`'s job. A class with no `__init__` inherits `object.__init__` and works fine."
+ },
+ {
+  "id": 52,
+  "d": 3,
+  "obj": "3.4",
+  "q": "What happens here?",
+  "code": "class Item:\n    def __init__(self):\n        return 42\n\ntry:\n    Item()\n    print(\"built\")\nexcept TypeError:\n    print(\"TypeError\")",
+  "opts": [
+   "`TypeError` - `__init__` must return `None`",
+   "`built`",
+   "`42`",
+   "nothing is printed"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`__init__` must return `None`; returning anything else raises `TypeError: __init__() should return None`. Set attributes on `self` instead of returning a value."
+ },
+ {
+  "id": 53,
+  "d": 3,
+  "obj": "3.4",
+  "q": "What does this print?",
+  "code": "class User:\n    def __init__(self, name, role=\"member\"):\n        self.name = name\n        self.role = role\n\na = User(\"Ada\")\nb = User(\"Bo\", \"admin\")\nprint(a.role, b.role)",
+  "opts": [
+   "`member admin`",
+   "`admin admin`",
+   "`member member`",
+   "it raises a `TypeError` because `User(\"Ada\")` is missing an argument"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "A default value makes the parameter optional, so `User(\"Ada\")` uses `member`. This is the Python answer to \"constructors with different signatures\" - one constructor with defaults, not several."
+ },
+ {
+  "id": 54,
+  "d": 3,
+  "obj": "3.5",
+  "q": "What does this print?",
+  "code": "class Car:\n    def __init__(self):\n        self.wheels = 4\n\nc = Car()\nprint(hasattr(c, \"wheels\"), hasattr(c, \"wings\"), getattr(c, \"wings\", 0))",
+  "opts": [
+   "`True False 0`",
+   "`True True 0`",
+   "`True False None`",
+   "it raises an `AttributeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`hasattr` reports whether the attribute exists. `getattr(obj, name, default)` returns the default rather than raising when it does not. Without the default it would raise `AttributeError`."
+ },
+ {
+  "id": 55,
+  "d": 3,
+  "obj": "3.5",
+  "q": "What does this print?",
+  "code": "class Base:\n    tag = \"class\"\n\nb = Base()\nprint(b.tag)\nb.tag = \"instance\"\nprint(b.tag, Base.tag)",
+  "opts": [
+   "`class` then `instance class`",
+   "`class` then `instance instance`",
+   "`class` then `class class`",
+   "it raises an `AttributeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Attribute lookup checks the instance first, then the class. Assigning `b.tag` creates an instance attribute that shadows the class attribute for that object only - `Base.tag` is untouched, and other instances still see `class`."
+ },
+ {
+  "id": 56,
+  "d": 3,
+  "obj": "3.5",
+  "q": "What does an instance's `__dict__` hold?",
+  "code": "class P:\n    kind = \"shape\"\n    def __init__(self):\n        self.x = 1\n\nprint(sorted(P().__dict__))",
+  "opts": [
+   "`['x']` - only the instance attributes, not the class attributes",
+   "`['kind', 'x']`",
+   "`['kind']`",
+   "`[]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "An instance's `__dict__` holds only what was set on the instance. Class attributes live in `P.__dict__`, which is why lookup has to check both."
+ },
+ {
+  "id": 57,
+  "d": 3,
+  "obj": "3.6",
+  "q": "In `car = Car(\"blue\")`, what is `Car(\"blue\")` called, and what is `car`?",
+  "code": null,
+  "opts": [
+   "Instantiation, and `car` is an instance of `Car`",
+   "Inheritance, and `car` is a subclass of `Car`",
+   "Overriding, and `car` is a method",
+   "Encapsulation, and `car` is an attribute"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Calling a class instantiates it and returns an instance. The vocabulary matters on this exam: class, instance, attribute, method, instantiation."
+ },
+ {
+  "id": 58,
+  "d": 3,
+  "obj": "3.6",
+  "q": "Why does every instance method take `self` as its first parameter?",
+  "code": null,
+  "opts": [
+   "Python passes the instance explicitly as the first argument; `self` is the name that receives it",
+   "`self` is a reserved keyword that Python fills in automatically",
+   "It is optional and can be left out",
+   "It refers to the class, not the instance"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`obj.method()` is shorthand for `Class.method(obj)`, so the instance arrives as the first positional argument. `self` is a naming convention, not a keyword - but breaking it will confuse every reader."
+ },
+ {
+  "id": 59,
+  "d": 3,
+  "obj": "3.7",
+  "q": "What does encapsulation mean in practice?",
+  "code": null,
+  "opts": [
+   "Bundling data and the methods that operate on it into one unit, and controlling access to the internals",
+   "Allowing a class to inherit from more than one parent",
+   "Letting different types respond to the same method call",
+   "Preventing a class from ever being subclassed"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Encapsulation bundles state with the behaviour that acts on it and keeps the internals out of the public surface. Option B describes multiple inheritance and C describes polymorphism."
+ },
+ {
+  "id": 60,
+  "d": 3,
+  "obj": "3.7",
+  "q": "A colleague names an attribute `self._cache`. What does the single leading underscore mean?",
+  "code": null,
+  "opts": [
+   "It is a convention meaning \"internal, do not rely on this\" - Python does not enforce it",
+   "Python makes the attribute unreadable from outside the class",
+   "It makes the attribute read-only",
+   "It renames the attribute at runtime"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "One underscore is a documented convention meaning \"not part of the public API\". Nothing enforces it - the attribute is fully readable. PEP 8 describes it as a weak internal-use indicator."
+ },
+ {
+  "id": 61,
+  "d": 3,
+  "obj": "3.8",
+  "q": "What does this print?",
+  "code": "class Animal:\n    def speak(self):\n        return \"...\"\n\nclass Dog(Animal):\n    pass\n\nprint(Dog().speak())",
+  "opts": [
+   "`...` - `Dog` inherits `speak` from `Animal`",
+   "it raises an `AttributeError`",
+   "`None`",
+   "`speak`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`Dog` defines nothing, so lookup walks up to `Animal` and finds `speak`. Inheritance means the subclass gets the parent's methods without repeating them."
+ },
+ {
+  "id": 62,
+  "d": 3,
+  "obj": "3.8",
+  "q": "What does this print?",
+  "code": "class Vehicle:\n    def __init__(self, wheels):\n        self.wheels = wheels\n\nclass Bike(Vehicle):\n    def __init__(self):\n        super().__init__(2)\n        self.pedals = True\n\nb = Bike()\nprint(b.wheels, b.pedals)",
+  "opts": [
+   "`2 True`",
+   "`0 True`",
+   "it raises a `TypeError` because `Bike()` takes no arguments",
+   "it raises an `AttributeError` because `wheels` is never set"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "The subclass's `__init__` overrides the parent's, so the parent's must be called explicitly. `super().__init__(2)` does that, setting `wheels` before the subclass adds `pedals`. Forgetting the `super()` call is how half-initialised objects happen."
+ },
+ {
+  "id": 63,
+  "d": 3,
+  "obj": "3.8",
+  "q": "What does this print?",
+  "code": "class A: pass\nclass B(A): pass\n\nb = B()\nprint(isinstance(b, A), issubclass(B, A), isinstance(A(), B))",
+  "opts": [
+   "`True True False`",
+   "`False True False`",
+   "`True True True`",
+   "`True False False`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`isinstance(b, A)` is true because `B` derives from `A`, and `issubclass(B, A)` is true for the same reason. An `A` is not a `B`, so the third is false - inheritance runs one way only."
+ },
+ {
+  "id": 64,
+  "d": 3,
+  "obj": "3.8",
+  "q": "What does this print?",
+  "code": "class A:\n    def who(self):\n        return \"A\"\n\nclass B(A):\n    def who(self):\n        return \"B\"\n\nclass C(A):\n    def who(self):\n        return \"C\"\n\nclass D(B, C):\n    pass\n\nprint(D().who())",
+  "opts": [
+   "`B`",
+   "`C`",
+   "`A`",
+   "it raises a `TypeError` because of the ambiguous inheritance"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Python resolves multiple inheritance by the method resolution order, which for `D(B, C)` is D, B, C, A. `B.who` is found first. Python does not raise on the diamond; it linearises it."
+ },
+ {
+  "id": 65,
+  "d": 3,
+  "obj": "3.9",
+  "q": "What does this print?",
+  "code": "class Shape:\n    def area(self):\n        return 0\n\nclass Square(Shape):\n    def __init__(self, side):\n        self.side = side\n    def area(self):\n        return self.side ** 2\n\nprint(Square(3).area())",
+  "opts": [
+   "`9` - the subclass method overrides the parent's",
+   "`0`",
+   "`3`",
+   "it raises a `TypeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`Square.area` overrides `Shape.area` because the subclass is searched first. This is the mechanism behind polymorphism: same call, different behaviour by type."
+ },
+ {
+  "id": 66,
+  "d": 3,
+  "obj": "3.9",
+  "q": "What does this print?",
+  "code": "class Coin:\n    def __init__(self, value):\n        self.value = value\n    def __str__(self):\n        return f\"{self.value}p\"\n\nprint(Coin(50))",
+  "opts": [
+   "`50p` - `print()` converts its argument with `str()`, which calls `__str__`",
+   "the default `<__main__.Coin object at 0x...>` representation",
+   "`50`",
+   "it raises a `TypeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`print()` converts its argument with `str()`, which calls `__str__`. Without it you get the default `<Coin object at 0x...>`. `__repr__` is the developer-facing sibling and is what the REPL shows."
+ },
+ {
+  "id": 67,
+  "d": 3,
+  "obj": "3.10",
+  "q": "What does this print?",
+  "code": "class Vault:\n    def __init__(self):\n        self.__code = 1234\n\nv = Vault()\nprint(hasattr(v, \"__code\"), v._Vault__code)",
+  "opts": [
+   "`False 1234` - the double underscore triggers name mangling to `_Vault__code`",
+   "`True 1234`",
+   "it raises an `AttributeError` on the second expression",
+   "`False 0`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "An attribute starting with two underscores is name-mangled to `_ClassName__attr`, so `v.__code` fails from outside while `v._Vault__code` works. The purpose is avoiding accidental clashes in subclasses, not security."
+ },
+ {
+  "id": 68,
+  "d": 3,
+  "obj": "3.10",
+  "q": "Which statement about \"private\" attributes in Python is true?",
+  "code": null,
+  "opts": [
+   "There is no enforced privacy - a double underscore mangles the name, which discourages access but does not prevent it",
+   "A double-underscore attribute is encrypted in memory",
+   "`private` is a keyword that blocks external access",
+   "Single-underscore attributes raise `AttributeError` when accessed from outside"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Python has no access modifiers. Double underscore mangles the name, single underscore signals intent, and neither blocks access. The documented model is that everything is reachable and conventions carry the meaning."
+ },
+ {
+  "id": 69,
+  "d": 3,
+  "obj": "3.11",
+  "q": "What does this print, and what does it say about function overloading in Python?",
+  "code": "class Calc:\n    def add(self, a, b):\n        return a + b\n    def add(self, a, b, c):\n        return a + b + c\n\nprint(Calc().add(1, 2, 3))",
+  "opts": [
+   "`6` - the second `def` replaces the first, so Python has no function overloading",
+   "`3` - Python picks the two-argument version when given two arguments",
+   "it raises a `TypeError` for a duplicate method name",
+   "`1`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Defining a method twice simply rebinds the name - the second definition wins and the first is gone, so a two-argument call would now fail. This is why the blueprint's phrase \"function overloading\" does not describe real Python behaviour. See the objectives note on 3.11."
+ },
+ {
+  "id": 70,
+  "d": 3,
+  "obj": "3.11",
+  "q": "What does this print, and which OOP idea does it show?",
+  "code": "class Cat:\n    def speak(self):\n        return \"meow\"\n\nclass Duck:\n    def speak(self):\n        return \"quack\"\n\nfor animal in (Cat(), Duck()):\n    print(animal.speak())",
+  "opts": [
+   "`meow` then `quack` - polymorphism through duck typing; no shared base class is needed",
+   "it raises a `TypeError` because the classes are unrelated",
+   "`meow` twice",
+   "`quack` twice"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Both objects answer `speak()`, so the loop works without a common base class. Python cares that the method exists, not what the type is - duck typing, and the usual meaning of polymorphism here."
+ },
+ {
+  "id": 71,
+  "d": 3,
+  "obj": "3.11",
+  "q": "Python has no function overloading. Which two are the idiomatic ways to let one method accept a varying number of arguments?",
+  "code": null,
+  "opts": [
+   "Give parameters default values",
+   "Collect extras with `*args`",
+   "Define the method twice with different parameter lists",
+   "Annotate the method with `@overload` so Python dispatches at runtime"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "Defaults and `*args` are how one Python function accepts varying calls. Defining it twice replaces the first definition. `typing.overload` exists but is a type-checker hint with no runtime effect."
+ },
+ {
+  "id": 72,
+  "d": 4,
+  "obj": "4.1",
+  "q": "After `import math`, which expression calls the square-root function?",
+  "code": null,
+  "opts": [
+   "`math.sqrt(9)`",
+   "`sqrt(9)`",
+   "`math->sqrt(9)`",
+   "`from math.sqrt(9)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`import math` binds the module object to the name `math`; its contents are reached through the dot. A bare `sqrt(9)` fails with `NameError` unless it was imported directly."
+ },
+ {
+  "id": 73,
+  "d": 4,
+  "obj": "4.1",
+  "q": "What is the difference between `import math` and `from math import sqrt`?",
+  "code": null,
+  "opts": [
+   "The first binds the name `math` and you call `math.sqrt()`; the second binds `sqrt` directly into your namespace",
+   "The first is faster because it loads less of the module",
+   "The second imports the whole module twice",
+   "There is no difference"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Both load the module. The difference is what lands in your namespace: the module object, or the individual name. `from ... import` is not faster - the whole module still executes; only the binding differs."
+ },
+ {
+  "id": 74,
+  "d": 4,
+  "obj": "4.1",
+  "q": "What does `import numpy as np` do?",
+  "code": null,
+  "opts": [
+   "It imports the module and binds it to the shorter local name `np`",
+   "It imports only the part of NumPy called `np`",
+   "It renames the installed package on disk",
+   "It creates a copy of the module"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`as` renames the binding in your file only. Nothing on disk changes. `np` is a universal convention for NumPy and worth using."
+ },
+ {
+  "id": 75,
+  "d": 4,
+  "obj": "4.1",
+  "q": "Why is `from module import *` discouraged?",
+  "code": null,
+  "opts": [
+   "It pulls every public name into the current namespace, where they can silently overwrite your own names",
+   "It is a syntax error outside a function",
+   "It imports the module twice",
+   "It prevents the module from being imported again later"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A star import binds every public name at once, so an unnoticed collision can silently replace one of your own functions - and a reader cannot tell where a name came from. Explicit imports are the documented preference."
+ },
+ {
+  "id": 76,
+  "d": 4,
+  "obj": "4.2",
+  "q": "What do these print?",
+  "code": "import math\nprint(math.ceil(-2.5), math.floor(-2.5))",
+  "opts": [
+   "`-2 -3`",
+   "`-3 -2`",
+   "`-2 -2`",
+   "`-3 -3`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`ceil` rounds up toward positive infinity, so `-2.5` becomes `-2`. `floor` rounds down toward negative infinity, giving `-3`. For negative numbers \"up\" and \"down\" are the opposite of \"bigger\" and \"smaller\" in magnitude, which is the trap."
+ },
+ {
+  "id": 77,
+  "d": 4,
+  "obj": "4.2",
+  "q": "What does this print?",
+  "code": "import re\nprint(re.findall(r\"\\d+\", \"a1b22c333\"))",
+  "opts": [
+   "`['1', '22', '333']`",
+   "`['1', '2', '2', '3', '3', '3']`",
+   "`['a', 'b', 'c']`",
+   "`[]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`\\d+` matches one or more consecutive digits, and `findall` returns every non-overlapping match as a list of strings - note strings, not integers. Without the `+` it would match single digits."
+ },
+ {
+  "id": 78,
+  "d": 4,
+  "obj": "4.2",
+  "q": "What does this print?",
+  "code": "from datetime import date\nd = date(2026, 8, 25)\nprint(d.strftime(\"%Y-%m-%d\"), d.year)",
+  "opts": [
+   "`2026-08-25 2026`",
+   "`25-08-2026 2026`",
+   "`2026-8-25 2026`",
+   "it raises a `ValueError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`%Y` is the four-digit year, `%m` the zero-padded month and `%d` the zero-padded day. The `date` object also exposes `.year`, `.month` and `.day` directly."
+ },
+ {
+  "id": 79,
+  "d": 4,
+  "obj": "4.2",
+  "q": "Which two statements about the `random` module are true?",
+  "code": null,
+  "opts": [
+   "`random.seed(42)` makes the sequence of following random numbers repeatable",
+   "`random.choice(seq)` returns one element drawn from `seq`",
+   "`random.randint(1, 6)` can never return 6",
+   "`random.random()` returns an integer"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "Seeding fixes the generator's starting state, so the same sequence follows - essential for reproducible tests. `randint(a, b)` is inclusive at *both* ends, so 6 is possible, and `random()` returns a float in [0.0, 1.0)."
+ },
+ {
+  "id": 80,
+  "d": 4,
+  "obj": "4.2",
+  "q": "What is `sys.path`?",
+  "code": null,
+  "opts": [
+   "The list of directories the interpreter searches when importing a module",
+   "The path to the currently running script",
+   "The system `PATH` environment variable",
+   "The folder where `pip` installs packages"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`sys.path` is the list of directories searched on import, starting with the script's own directory. Appending to it is how a script reaches modules outside its folder."
+ },
+ {
+  "id": 81,
+  "d": 4,
+  "obj": "4.3",
+  "q": "You save some functions in `helpers.py` and want to use them from `main.py` in the same folder. What do you write in `main.py`?",
+  "code": null,
+  "opts": [
+   "`import helpers`",
+   "`include helpers.py`",
+   "`import helpers.py`",
+   "`from helpers`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "The module name is the filename without `.py`, so `import helpers`. Writing `import helpers.py` makes Python look for a module `py` inside a package `helpers` and fails."
+ },
+ {
+  "id": 82,
+  "d": 4,
+  "obj": "4.3",
+  "q": "What is a module, in Python's own terms?",
+  "code": null,
+  "opts": [
+   "A file containing Python definitions and statements, whose filename is the module name plus `.py`",
+   "A compiled binary that Python loads at startup",
+   "Any folder inside the project",
+   "A class with only static methods"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "The documentation defines a module as a file containing Python definitions and statements, with the file name being the module name plus the `.py` suffix."
+ },
+ {
+  "id": 83,
+  "d": 4,
+  "obj": "4.4",
+  "q": "What does this idiom do, and why is it used?",
+  "code": "def main():\n    print(\"running\")\n\nif __name__ == \"__main__\":\n    main()",
+  "opts": [
+   "`__name__` is `\"__main__\"` only when the file is run directly, so `main()` runs on execution but not on import",
+   "It stops the file from ever being imported",
+   "It renames the module to `__main__`",
+   "It is required in every Python file"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Python sets `__name__` to `\"__main__\"` in the file being run directly, and to the module's own name when it is imported. The guard therefore separates \"run me\" behaviour from \"import me\" behaviour, so importing the file does not execute the script."
+ },
+ {
+  "id": 84,
+  "d": 4,
+  "obj": "4.4",
+  "q": "What is the value of `__name__` inside `helpers.py` when `main.py` does `import helpers`?",
+  "code": null,
+  "opts": [
+   "`\"helpers\"`",
+   "`\"__main__\"`",
+   "`\"main\"`",
+   "`None`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "On import, `__name__` is the module's name - here `\"helpers\"`. Only the file the interpreter was pointed at gets `\"__main__\"`."
+ },
+ {
+  "id": 85,
+  "d": 4,
+  "obj": "4.5",
+  "q": "What makes a folder a Python package in the traditional layout?",
+  "code": null,
+  "opts": [
+   "It contains an `__init__.py` file",
+   "It contains a `package.json` file",
+   "Its name ends in `.pkg`",
+   "It is listed in `sys.modules`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`__init__.py` marks the directory as a package and runs on import. It may be empty. Namespace packages can omit it, but the exam-level answer is the `__init__.py` layout."
+ },
+ {
+  "id": 86,
+  "d": 4,
+  "obj": "4.5",
+  "q": "Given the package layout below, which import reaches `clean()`?",
+  "code": "# tools/\n#     __init__.py\n#     text/\n#         __init__.py\n#         strip.py     <- defines clean()",
+  "opts": [
+   "`from tools.text.strip import clean`",
+   "`import tools.text.strip` then call `tools.text.strip.clean()`",
+   "`import clean from tools.text.strip`",
+   "`from tools import clean`"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "Both reach the function: `from tools.text.strip import clean` binds it directly, and importing the full dotted path lets you call it through the chain. Option C reverses the syntax, and `from tools import clean` fails because `clean` is not defined in the top package."
+ },
+ {
+  "id": 87,
+  "d": 4,
+  "obj": "4.6",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([1, 2, 3])\nprint(a)",
+  "opts": [
+   "`[1 2 3]` - NumPy prints arrays without commas",
+   "`[1, 2, 3]`",
+   "`array([1, 2, 3])`",
+   "`(1, 2, 3)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "NumPy's array display separates elements with spaces, not commas - so `[1 2 3]`. Seeing commas means it is a list. The `array([1, 2, 3])` form is the `repr`, which is what the REPL echoes."
+ },
+ {
+  "id": 88,
+  "d": 4,
+  "obj": "4.6",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([[1, 2, 3], [4, 5, 6]])\nprint(a.shape, a.ndim, a.size)",
+  "opts": [
+   "`(2, 3) 2 6`",
+   "`(3, 2) 2 6`",
+   "`(2, 3) 6 2`",
+   "`(6,) 1 6`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`shape` is (rows, columns), `ndim` is the number of dimensions and `size` is the total element count. Two rows of three gives `(2, 3)`, 2 and 6."
+ },
+ {
+  "id": 89,
+  "d": 4,
+  "obj": "4.6",
+  "q": "What does this print?",
+  "code": "import numpy as np\nprint(np.arange(0, 10, 3))",
+  "opts": [
+   "`[0 3 6 9]`",
+   "`[0 3 6 9 12]`",
+   "`[3 6 9]`",
+   "`[0 1 2 3 4 5 6 7 8 9]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`arange(start, stop, step)` excludes the stop value, exactly like `range` - 0, 3, 6, 9, and 12 would be past 10."
+ },
+ {
+  "id": 90,
+  "d": 4,
+  "obj": "4.6",
+  "q": "What does this print?",
+  "code": "import numpy as np\nprint(np.zeros(3), np.ones(2, dtype=int))",
+  "opts": [
+   "`[0. 0. 0.] [1 1]`",
+   "`[0 0 0] [1 1]`",
+   "`[0. 0. 0.] [1. 1.]`",
+   "it raises a `TypeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`zeros` defaults to float, which is why they print as `0.` with a trailing dot. `dtype=int` forces the integer type, so the ones print without dots."
+ },
+ {
+  "id": 91,
+  "d": 4,
+  "obj": "4.7",
+  "q": "What happens here, and what does it show about a NumPy array's dtype?",
+  "code": "import numpy as np\na = np.array([1, 2, 3])\na[0] = 9.7\nprint(a)",
+  "opts": [
+   "`[9 2 3]` - the array holds one fixed type, so the float is truncated to fit the integer dtype",
+   "`[9.7 2. 3. ]`",
+   "it raises a `TypeError`",
+   "`[10 2 3]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "An array has one dtype for every element. This array is integer, so assigning 9.7 truncates toward zero to 9 - no error, no warning, silent data loss. It is the sharpest practical difference from a list."
+ },
+ {
+  "id": 92,
+  "d": 4,
+  "obj": "4.7",
+  "q": "Which two statements describe how a NumPy array differs from a Python list?",
+  "code": null,
+  "opts": [
+   "Every element shares one fixed data type",
+   "Arithmetic applies element by element across the whole array",
+   "It can hold values of mixed types as freely as a list",
+   "It grows with `append()` in place, exactly like a list"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "An array is homogeneous and typed, and arithmetic is element-wise (vectorised) rather than list concatenation. It has no `append` method - `np.append` exists but returns a new array."
+ },
+ {
+  "id": 93,
+  "d": 4,
+  "obj": "4.8",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([1, 2, 3])\nb = np.array([10, 20, 30])\nprint(a + b, a * 2)",
+  "opts": [
+   "`[11 22 33] [2 4 6]`",
+   "`[1 2 3 10 20 30] [2 4 6]`",
+   "`[11 22 33] [1 2 3 1 2 3]`",
+   "it raises a `ValueError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Both `+` and `*` work element by element on arrays. On lists `+` concatenates and `*` repeats, which is the exact confusion the next question tests."
+ },
+ {
+  "id": 94,
+  "d": 4,
+  "obj": "4.8",
+  "q": "A list and an array are given the same treatment. What does this print, and why do they differ?",
+  "code": "nums = [1, 2, 3]\nimport numpy as np\narr = np.array([1, 2, 3])\nprint(nums * 2)\nprint(arr * 2)",
+  "opts": [
+   "`[1, 2, 3, 1, 2, 3]` then `[2 4 6]` - `*` repeats a list but multiplies an array element-wise",
+   "`[2, 4, 6]` then `[2 4 6]`",
+   "`[1, 2, 3, 1, 2, 3]` then `[1 2 3 1 2 3]`",
+   "it raises a `TypeError` on the second line"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Same operator, two meanings: `list * 2` repeats the sequence, `array * 2` multiplies every element. Anyone moving from lists to NumPy hits this in the first hour."
+ },
+ {
+  "id": 95,
+  "d": 4,
+  "obj": "4.8",
+  "q": "What does this print, and how does it differ from slicing a list?",
+  "code": "import numpy as np\na = np.array([1, 2, 3, 4])\npart = a[1:3]\npart[0] = 99\nprint(a)",
+  "opts": [
+   "`[ 1 99  3  4]` - a NumPy slice is a view onto the original array, not a copy",
+   "`[1 2 3 4]`",
+   "`[99  2  3  4]`",
+   "it raises a `ValueError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Basic slicing of a NumPy array returns a *view* that shares memory with the original, so writing through the slice changes the parent. Slicing a list returns a copy. Use `a[1:3].copy()` when you want independence."
+ },
+ {
+  "id": 96,
+  "d": 4,
+  "obj": "4.8",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([1, 2, 3, 4])\nprint(a[a > 2])",
+  "opts": [
+   "`[3 4]`",
+   "`[False False True True]`",
+   "`[1 2]`",
+   "it raises an `IndexError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`a > 2` produces a boolean array, and indexing with it selects the elements where it is True. This is boolean masking, the standard NumPy way to filter."
+ },
+ {
+  "id": 97,
+  "d": 4,
+  "obj": "4.9",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([2, 4, 6, 8])\nprint(a.mean(), a.sum(), a.max())",
+  "opts": [
+   "`5.0 20 8`",
+   "`5 20 8`",
+   "`20 5.0 8`",
+   "`4.0 20 8`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`mean()` returns a float even for integer input, so `5.0`. `sum()` and `max()` keep the integer type."
+ },
+ {
+  "id": 98,
+  "d": 4,
+  "obj": "4.9",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([[1, 2], [3, 4]])\nprint(a.sum(axis=0), a.sum(axis=1))",
+  "opts": [
+   "`[4 6] [3 7]`",
+   "`[3 7] [4 6]`",
+   "`[10] [10]`",
+   "`[1 2] [3 4]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`axis=0` collapses down the rows, giving one total per column: 1+3 and 2+4. `axis=1` collapses across the columns, giving one total per row: 1+2 and 3+4. Reading the axis as \"the axis that disappears\" is the reliable way to remember it."
+ },
+ {
+  "id": 99,
+  "d": 4,
+  "obj": "4.9",
+  "q": "What does this print?",
+  "code": "import numpy as np\na = np.array([1, 2, 3, 4])\nprint(np.median(a))",
+  "opts": [
+   "`2.5`",
+   "`2`",
+   "`3`",
+   "`2.0`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "With an even number of values the median is the mean of the two middle ones, so (2+3)/2 = 2.5, and the result is a float."
+ },
+ {
+  "id": 100,
+  "d": 4,
+  "obj": "4.9",
+  "q": "Which NumPy function returns the standard deviation of an array?",
+  "code": null,
+  "opts": [
+   "`np.std(a)`",
+   "`np.deviation(a)`",
+   "`np.sd(a)`",
+   "`np.variance(a)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`np.std` is the standard deviation and `np.var` the variance. `np.deviation` and `np.sd` do not exist - plausible-looking names that were never real, which is the single most common wrong answer pattern in Python question banks."
+ },
+ {
+  "id": 101,
+  "d": 5,
+  "obj": "5.1",
+  "q": "What is the difference between a syntax error and an exception?",
+  "code": null,
+  "opts": [
+   "A syntax error stops the file from compiling at all; an exception is raised while otherwise valid code runs",
+   "They are two names for the same thing",
+   "A syntax error can be caught with `try`/`except`; an exception cannot",
+   "An exception happens at compile time; a syntax error at run time"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A syntax error is found while the source is being parsed, so nothing runs at all and it cannot be caught by a `try` in the same file. An exception is raised by code that parsed fine but hit a problem at run time, and that is what `try`/`except` is for."
+ },
+ {
+  "id": 102,
+  "d": 5,
+  "obj": "5.1",
+  "q": "Which exception class sits at the top of the hierarchy, and which should you normally catch?",
+  "code": null,
+  "opts": [
+   "`BaseException` is the root; catch `Exception`, which excludes `SystemExit` and `KeyboardInterrupt`",
+   "`Exception` is the root; catch `BaseException` for safety",
+   "`Error` is the root; catch `Error`",
+   "`RuntimeError` is the root; catch `RuntimeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`BaseException` is the root. `Exception` sits below it and deliberately excludes `SystemExit`, `KeyboardInterrupt` and `GeneratorExit`, which is exactly why catching `Exception` is the safe default - it leaves the ways of stopping a program alone."
+ },
+ {
+  "id": 103,
+  "d": 5,
+  "obj": "5.1",
+  "q": "Which exception does each line raise?",
+  "code": "import traceback\nfor src in [\"undefined_name\", \"'a' + 1\", \"int('abc')\", \"[1, 2][9]\"]:\n    try:\n        eval(src)\n    except Exception as e:\n        print(type(e).__name__)",
+  "opts": [
+   "`NameError` `TypeError` `ValueError` `IndexError`",
+   "`NameError` `ValueError` `TypeError` `KeyError`",
+   "`SyntaxError` `TypeError` `ValueError` `IndexError`",
+   "`NameError` `TypeError` `TypeError` `IndexError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "A name that was never bound gives `NameError`; `'a' + 1` mixes incompatible types so `TypeError`; `int('abc')` gets the right type with an unusable value so `ValueError`; an index past the end gives `IndexError`. Learning to predict the class is most of debugging."
+ },
+ {
+  "id": 104,
+  "d": 5,
+  "obj": "5.1",
+  "q": "Why does `int(\"abc\")` raise `ValueError` rather than `TypeError`?",
+  "code": null,
+  "opts": [
+   "The type is right - a string is acceptable to `int()` - but the value cannot be interpreted as a number",
+   "`TypeError` is only for user-defined types",
+   "It actually raises `TypeError`",
+   "`ValueError` is raised whenever a conversion function is used"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`TypeError` means the *type* was inappropriate, `ValueError` means the type was fine but the *value* was not. `int()` accepts strings, so `\"abc\"` is a value problem. `int([])` is a type problem and does raise `TypeError`."
+ },
+ {
+  "id": 105,
+  "d": 5,
+  "obj": "5.2",
+  "q": "What does this print?",
+  "code": "try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print(\"cannot divide by zero\")\nexcept Exception:\n    print(\"something else\")",
+  "opts": [
+   "`cannot divide by zero`",
+   "`something else`",
+   "both lines",
+   "it raises an unhandled `ZeroDivisionError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Handlers are checked in order and the first matching one runs. `ZeroDivisionError` matches first, so the broader handler never fires."
+ },
+ {
+  "id": 106,
+  "d": 5,
+  "obj": "5.2",
+  "q": "What does this print?",
+  "code": "try:\n    int(\"x\")\nexcept ValueError as e:\n    print(type(e).__name__, len(e.args))",
+  "opts": [
+   "`ValueError 1`",
+   "`ValueError 0`",
+   "`Exception 1`",
+   "it raises a `SyntaxError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`as e` binds the exception instance. `e.args` is the tuple of arguments it was raised with - here one string - and `str(e)` gives the message."
+ },
+ {
+  "id": 107,
+  "d": 5,
+  "obj": "5.2",
+  "q": "What does this print?",
+  "code": "def f():\n    try:\n        return \"try\"\n    finally:\n        print(\"finally\")\n\nprint(f())",
+  "opts": [
+   "`finally` then `try` - the `finally` block runs even when the `try` returns",
+   "`try` then `finally`",
+   "`try` only",
+   "`finally` only"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`finally` runs on the way out no matter how the block is left, including a `return`. The return value is computed first, then `finally` runs, then the function actually returns - which is why `finally` prints first."
+ },
+ {
+  "id": 108,
+  "d": 5,
+  "obj": "5.2",
+  "q": "Why is a bare `except:` discouraged?",
+  "code": null,
+  "opts": [
+   "It catches everything including `KeyboardInterrupt` and `SystemExit`, so it can swallow a user pressing Ctrl-C",
+   "It is a syntax error in Python 3",
+   "It catches only `SyntaxError`",
+   "It re-raises the exception automatically"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A bare `except:` catches `BaseException`, so it swallows Ctrl-C and `SystemExit` along with real errors, and makes a program hard to stop or debug. Catch `Exception` if you must be broad, and prefer naming the class."
+ },
+ {
+  "id": 109,
+  "d": 5,
+  "obj": "5.2",
+  "q": "How do you handle two exception types with one block?",
+  "code": null,
+  "opts": [
+   "`except (ValueError, TypeError):`",
+   "`except ValueError or TypeError:`",
+   "`except ValueError, TypeError:`",
+   "`except [ValueError, TypeError]:`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Multiple types go in a parenthesised tuple. The comma form without parentheses was Python 2 syntax for `as` and is a syntax error now, and `or` evaluates to a single class rather than combining them."
+ },
+ {
+  "id": 110,
+  "d": 5,
+  "obj": "5.2",
+  "q": "What does this print, and what is wrong with the ordering?",
+  "code": "try:\n    int(\"x\")\nexcept Exception:\n    print(\"general\")\nexcept ValueError:\n    print(\"specific\")",
+  "opts": [
+   "`general` - the first matching handler wins, so a broad class listed first makes every later, narrower one unreachable",
+   "`specific`",
+   "both",
+   "it raises a `SyntaxError` for unreachable handlers"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Handlers are tried top to bottom and `Exception` matches everything, so listing it first makes every narrower clause below it dead code. Order handlers most specific first - the same rule as `if`/`elif`."
+ },
+ {
+  "id": 111,
+  "d": 5,
+  "obj": "5.3",
+  "q": "What does this print?",
+  "code": "try:\n    n = int(\"7\")\nexcept ValueError:\n    print(\"bad input\")\nelse:\n    print(\"parsed\", n)\nfinally:\n    print(\"done\")",
+  "opts": [
+   "`parsed 7` then `done`",
+   "`bad input` then `done`",
+   "`parsed 7` only",
+   "`done` then `parsed 7`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "No exception was raised, so `except` is skipped and `else` runs. `finally` runs last, always."
+ },
+ {
+  "id": 112,
+  "d": 5,
+  "obj": "5.3",
+  "q": "What is the `else` block of a `try` statement for?",
+  "code": null,
+  "opts": [
+   "Code that should run only if the `try` block raised nothing - keeping it out of `try` means its own exceptions are not caught by mistake",
+   "Code that runs whether or not an exception occurred",
+   "A fallback that runs when the `except` block fails",
+   "An alternative spelling of `finally`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`else` holds the code that should run only on success. Keeping it out of the `try` matters: if it lived inside, an exception raised by *it* would be caught by the same handler, which usually hides a bug."
+ },
+ {
+  "id": 113,
+  "d": 5,
+  "obj": "5.3",
+  "q": "What does this print?",
+  "code": "try:\n    raise ValueError(\"boom\")\nexcept ValueError:\n    print(\"except\")\nelse:\n    print(\"else\")\nfinally:\n    print(\"finally\")",
+  "opts": [
+   "`except` then `finally`",
+   "`except` then `else` then `finally`",
+   "`else` then `finally`",
+   "`finally` then `except`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The exception fires, so `except` runs and `else` is skipped entirely. `finally` still runs. `else` means \"the try block succeeded\", not \"otherwise\"."
+ },
+ {
+  "id": 114,
+  "d": 5,
+  "obj": "5.4",
+  "q": "How do you define your own exception type?",
+  "code": null,
+  "opts": [
+   "`class InsufficientFunds(Exception): pass`",
+   "`class InsufficientFunds(Error): pass`",
+   "`def InsufficientFunds(): raise`",
+   "`exception InsufficientFunds: pass`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Subclass `Exception` - the documentation's own recommendation. `pass` is enough for a body; the inherited `__init__` already accepts a message. There is no built-in class called `Error`."
+ },
+ {
+  "id": 115,
+  "d": 5,
+  "obj": "5.4",
+  "q": "What does this print?",
+  "code": "class TooCold(Exception):\n    pass\n\ntry:\n    raise TooCold(\"only 3 degrees\")\nexcept TooCold as e:\n    print(type(e).__name__, e)",
+  "opts": [
+   "`TooCold only 3 degrees`",
+   "`Exception only 3 degrees`",
+   "`TooCold TooCold`",
+   "it raises a `TypeError` because the class has no `__init__`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The inherited `Exception.__init__` stores the message, and `str(e)` returns it, so printing the instance shows the text. No custom `__init__` is required."
+ },
+ {
+  "id": 116,
+  "d": 5,
+  "obj": "5.4",
+  "q": "What does this print?",
+  "code": "class AppError(Exception):\n    pass\n\nclass DatabaseError(AppError):\n    pass\n\ntry:\n    raise DatabaseError(\"timeout\")\nexcept AppError:\n    print(\"caught by the base class\")",
+  "opts": [
+   "`caught by the base class` - an `except` clause catches the named class and every subclass of it",
+   "nothing, because the classes do not match exactly",
+   "it raises an unhandled `DatabaseError`",
+   "`timeout`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`except` matches the named class and anything derived from it, so a base exception per application lets one handler cover a whole family. This is why exception hierarchies are worth designing."
+ },
+ {
+  "id": 117,
+  "d": 5,
+  "obj": "5.5",
+  "q": "Which exception does `10 / 0` raise?",
+  "code": null,
+  "opts": [
+   "`ZeroDivisionError`",
+   "`ValueError`",
+   "`ArithmeticError`",
+   "`FloatingPointError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Division by zero raises `ZeroDivisionError`. It is a subclass of `ArithmeticError`, so `except ArithmeticError` would also catch it - but the exception actually raised is `ZeroDivisionError`."
+ },
+ {
+  "id": 118,
+  "d": 5,
+  "obj": "5.5",
+  "q": "Which of these raise `ZeroDivisionError`?",
+  "code": null,
+  "opts": [
+   "`7 // 0`",
+   "`7 % 0`",
+   "`0 / 7`",
+   "`0 ** 0`"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "Floor division and modulo by zero both raise. `0 / 7` is a normal division giving `0.0`, and `0  0` is defined as `1` in Python."
+ },
+ {
+  "id": 119,
+  "d": 5,
+  "obj": "5.5",
+  "q": "What does `1.0 / 0` do in Python?",
+  "code": null,
+  "opts": [
+   "It raises `ZeroDivisionError` - Python does not return infinity for float division by zero",
+   "It returns `inf`",
+   "It returns `nan`",
+   "It returns `0.0`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Unlike C or JavaScript, Python raises rather than returning infinity. `float('inf')` exists, but you will not get it from dividing by zero."
+ },
+ {
+  "id": 120,
+  "d": 5,
+  "obj": "5.5",
+  "q": "A report divides a total by a count that is sometimes zero. Which version handles it correctly and still reports a value?",
+  "code": null,
+  "opts": [
+   "Wrap the division in `try`/`except ZeroDivisionError` and set the result to `0` in the handler",
+   "Test `if count != 0.0:` after the division",
+   "Catch `ValueError` around the division",
+   "Use `total // count`, which never raises"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Catching the specific exception keeps the happy path clean and handles the one real failure. Option B tests after the division has already raised, and `//` raises just the same."
+ },
+ {
+  "id": 121,
+  "d": 5,
+  "obj": "5.6",
+  "q": "Which exception does `open(\"nope.txt\")` raise when the file does not exist?",
+  "code": null,
+  "opts": [
+   "`FileNotFoundError`",
+   "`IOError`",
+   "`ValueError`",
+   "`KeyError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`FileNotFoundError` is the specific subclass raised when the path does not exist. Catching it by name is better than catching `OSError`, which would also swallow permission problems."
+ },
+ {
+  "id": 122,
+  "d": 5,
+  "obj": "5.6",
+  "q": "Which two statements about `FileNotFoundError` are true?",
+  "code": null,
+  "opts": [
+   "It is a subclass of `OSError`",
+   "`IOError` is an alias of `OSError`, so `except IOError` also catches it",
+   "It is a subclass of `ValueError`",
+   "It is raised when a file exists but is empty"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "`FileNotFoundError` derives from `OSError`, and since Python 3.3 `IOError` is an alias of `OSError` rather than a separate class. An empty file opens fine and raises nothing."
+ },
+ {
+  "id": 123,
+  "d": 5,
+  "obj": "5.6",
+  "q": "What does this print when `settings.txt` does not exist?",
+  "code": "try:\n    with open(\"settings.txt\") as f:\n        data = f.read()\nexcept FileNotFoundError:\n    data = \"default\"\nprint(data)",
+  "opts": [
+   "`default`",
+   "it raises an unhandled `FileNotFoundError`",
+   "an empty line",
+   "`settings.txt`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The handler runs, `data` is set to the fallback, and the program continues - the standard shape for an optional config file."
+ },
+ {
+  "id": 124,
+  "d": 5,
+  "obj": "5.6",
+  "q": "A script must keep running when a config file is missing but must stop loudly when the file exists and is unreadable. What is the right shape?",
+  "code": null,
+  "opts": [
+   "Catch `FileNotFoundError` specifically and let other `OSError` subclasses propagate",
+   "Use a bare `except:` so nothing can crash the script",
+   "Catch `Exception` and print a message",
+   "Check `os.path.exists()` and skip the `try` entirely"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Catching `FileNotFoundError` alone handles the case you planned for while letting a permission error or a bad disk surface as a crash you can see. Options B and C hide the second case, and D still leaves a race between the check and the open."
+ },
+ {
+  "id": 125,
+  "d": 6,
+  "obj": "6.1",
+  "q": "Why is the `with` form preferred?",
+  "code": "with open(\"notes.txt\") as f:\n    data = f.read()",
+  "opts": [
+   "The file is closed automatically when the block ends, even if an exception is raised inside it",
+   "It reads the file faster",
+   "It locks the file against other programs",
+   "It is the only syntax that allows reading"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`with` is a context manager: it closes the file on the way out, including when an exception is raised inside the block. Without it a raised exception can leave the handle open and the write unflushed."
+ },
+ {
+  "id": 126,
+  "d": 6,
+  "obj": "6.1",
+  "q": "What is the default mode of `open(path)`, and what does it mean?",
+  "code": null,
+  "opts": [
+   "`\"r\"` - open an existing file for reading in text mode",
+   "`\"w\"` - open for writing, creating the file if needed",
+   "`\"a\"` - open for appending",
+   "`\"rb\"` - open for reading in binary mode"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "The default is `\"r\"` - read, text mode. Text mode decodes bytes to `str` and translates newlines. `\"w\"` would destroy the file's contents, which is why the default is read."
+ },
+ {
+  "id": 127,
+  "d": 6,
+  "obj": "6.1",
+  "q": "What does `open()` return?",
+  "code": null,
+  "opts": [
+   "A file object that you read from, write to and close",
+   "The contents of the file as a string",
+   "The path to the file",
+   "A list of the file's lines"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`open()` returns a file object. The contents only arrive when you call `read()`, `readline()` or `readlines()`, or iterate it."
+ },
+ {
+  "id": 128,
+  "d": 6,
+  "obj": "6.2",
+  "q": "A script opens `\"data.txt\"` with no folder in front of it. Where does Python look?",
+  "code": null,
+  "opts": [
+   "In the current working directory, which is not necessarily the folder the script lives in",
+   "Always in the folder containing the script",
+   "In the Python installation directory",
+   "In every directory on `sys.path`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A relative path resolves against the current working directory, which is wherever the process was started - not the script's folder. This is why a script works when run from its own directory and fails from anywhere else."
+ },
+ {
+  "id": 129,
+  "d": 6,
+  "obj": "6.2",
+  "q": "Which two are absolute paths?",
+  "code": null,
+  "opts": [
+   "`C:\\data\\reports\\notes.txt`",
+   "`/var/reports/notes.txt`",
+   "`notes.txt`",
+   "`../notes.txt`"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "authored",
+  "scen": false,
+  "exp": "An absolute path is complete from the root: a drive letter and backslash on Windows, a leading slash on Linux and macOS. Bare and dotted names are relative."
+ },
+ {
+  "id": 130,
+  "d": 6,
+  "obj": "6.2",
+  "q": "Which function turns a relative path into an absolute one based on the current working directory?",
+  "code": null,
+  "opts": [
+   "`os.path.abspath(p)`",
+   "`os.path.realname(p)`",
+   "`os.fullpath(p)`",
+   "`os.path.absolute(p)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`os.path.abspath()` normalises a path against the current working directory. `os.path.realname` does not exist; the real neighbour is `os.path.realpath`, which also resolves symlinks."
+ },
+ {
+  "id": 131,
+  "d": 6,
+  "obj": "6.3",
+  "q": "What does this print?",
+  "code": "with open(\"nums.txt\", \"w\") as f:\n    f.write(\"a\\nb\\nc\\n\")\n\nwith open(\"nums.txt\") as f:\n    print(repr(f.read()))",
+  "opts": [
+   "`'a\\nb\\nc\\n'` - `read()` returns the whole file as one string, newlines included",
+   "`['a', 'b', 'c']`",
+   "`'abc'`",
+   "`'a'`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`read()` returns the entire file as a single string with newlines intact. `repr()` is used here so the newline characters are visible instead of being printed."
+ },
+ {
+  "id": 132,
+  "d": 6,
+  "obj": "6.3",
+  "q": "What does this print?",
+  "code": "with open(\"nums.txt\", \"w\") as f:\n    f.write(\"a\\nb\\n\")\n\nwith open(\"nums.txt\") as f:\n    print(f.readlines())",
+  "opts": [
+   "`['a\\n', 'b\\n']` - `readlines()` keeps the newline on the end of each line",
+   "`['a', 'b']`",
+   "`'a\\nb\\n'`",
+   "`['a\\nb\\n']`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`readlines()` returns a list of lines and keeps the trailing newline on each. Forgetting that is why comparisons against `\"a\"` fail - the value is `\"a\\n\"`. `strip()` or `splitlines()` removes it."
+ },
+ {
+  "id": 133,
+  "d": 6,
+  "obj": "6.3",
+  "q": "What does this print?",
+  "code": "with open(\"log.txt\", \"w\") as f:\n    f.write(\"one\\ntwo\\n\")\n\nwith open(\"log.txt\") as f:\n    for line in f:\n        print(line.strip())",
+  "opts": [
+   "`one` then `two`",
+   "`one\\ntwo\\n`",
+   "`['one', 'two']`",
+   "nothing - a file object is not iterable"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "A file object is its own iterator and yields one line per step, which is the memory-efficient way to read a large file. `strip()` removes the trailing newline before printing."
+ },
+ {
+  "id": 134,
+  "d": 6,
+  "obj": "6.3",
+  "q": "What does this print, and why does the second read differ?",
+  "code": "with open(\"d.txt\", \"w\") as f:\n    f.write(\"hello\")\n\nwith open(\"d.txt\") as f:\n    print(repr(f.read()))\n    print(repr(f.read()))",
+  "opts": [
+   "`'hello'` then `''` - the read position is now at the end of the file",
+   "`'hello'` then `'hello'`",
+   "`'hello'` then `None`",
+   "it raises a `ValueError` on the second read"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "The file keeps a read position. After the first `read()` it sits at the end, so the second returns an empty string. Call `f.seek(0)` to go back, or store the contents in a variable."
+ },
+ {
+  "id": 135,
+  "d": 6,
+  "obj": "6.4",
+  "q": "What does this print?",
+  "code": "with open(\"out.txt\", \"w\") as f:\n    f.write(\"first\")\nwith open(\"out.txt\", \"w\") as f:\n    f.write(\"second\")\nwith open(\"out.txt\") as f:\n    print(f.read())",
+  "opts": [
+   "`second` - mode `\"w\"` truncates the file to empty before writing",
+   "`firstsecond`",
+   "`first`",
+   "`first\\nsecond`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Mode `\"w\"` truncates the file to zero length the moment it is opened, so opening for write and doing nothing still empties it. This is the most destructive default in file handling."
+ },
+ {
+  "id": 136,
+  "d": 6,
+  "obj": "6.4",
+  "q": "Which mode adds to the end of an existing file without deleting what is already there?",
+  "code": null,
+  "opts": [
+   "`\"a\"`",
+   "`\"w\"`",
+   "`\"r+\"` used alone",
+   "`\"x\"`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`\"a\"` positions at the end and preserves what is there. `\"w\"` truncates, and `\"x\"` creates but fails if the file already exists."
+ },
+ {
+  "id": 137,
+  "d": 6,
+  "obj": "6.4",
+  "q": "What does this print?",
+  "code": "with open(\"w.txt\", \"w\") as f:\n    n = f.write(\"abc\")\n    f.write(\"def\")\nprint(n)\nwith open(\"w.txt\") as f:\n    print(f.read())",
+  "opts": [
+   "`3` then `abcdef` - `write()` returns the number of characters written and adds no newline",
+   "`3` then `abc\\ndef`",
+   "`6` then `abcdef`",
+   "`None` then `abcdef`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`write()` returns the number of characters written and adds no newline of its own, so two writes run together. Add `\"\\n\"` yourself, or use `print(..., file=f)`."
+ },
+ {
+  "id": 138,
+  "d": 6,
+  "obj": "6.5",
+  "q": "What is the difference between `os.mkdir()` and `os.makedirs()`?",
+  "code": null,
+  "opts": [
+   "`mkdir` creates one directory and fails if a parent is missing; `makedirs` creates every missing parent along the way",
+   "`mkdir` is for files and `makedirs` for directories",
+   "`makedirs` deletes the directory if it already exists",
+   "They are aliases of each other"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`mkdir` creates a single directory and raises `FileNotFoundError` if the parent chain is missing; `makedirs` builds the whole chain. Add `exist_ok=True` to `makedirs` when the directory may already be there."
+ },
+ {
+  "id": 139,
+  "d": 6,
+  "obj": "6.5",
+  "q": "Which call lists the names of the entries inside a directory?",
+  "code": null,
+  "opts": [
+   "`os.listdir(path)`",
+   "`os.path.list(path)`",
+   "`os.dir(path)`",
+   "`os.readdir(path)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`os.listdir(path)` returns the entry names - names only, not full paths, which is why joining with `os.path.join` is nearly always the next line. `os.scandir` is the richer modern alternative."
+ },
+ {
+  "id": 140,
+  "d": 6,
+  "obj": "6.6",
+  "q": "Why use `os.path.join(\"data\", \"raw\", \"a.csv\")` instead of `\"data\" + \"/\" + \"raw\" + \"/\" + \"a.csv\"`?",
+  "code": null,
+  "opts": [
+   "It inserts the separator the current operating system uses, so the same code works on Windows and on Linux",
+   "It checks that the file exists",
+   "It is faster",
+   "It converts the path to an absolute path"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`os.path.join` uses the platform's separator, so the same source runs on Windows and on Linux. It does not touch the filesystem and does not check existence."
+ },
+ {
+  "id": 141,
+  "d": 6,
+  "obj": "6.6",
+  "q": "What do these print for a path that is an existing file?",
+  "code": "import os, tempfile\np = os.path.join(tempfile.mkdtemp(), \"f.txt\")\nopen(p, \"w\").close()\nprint(os.path.exists(p), os.path.isfile(p), os.path.isdir(p))",
+  "opts": [
+   "`True True False`",
+   "`True False True`",
+   "`True True True`",
+   "`False False False`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`exists` is true for anything at that path, `isfile` narrows it to a regular file and `isdir` to a directory. For an existing file that gives True, True, False."
+ },
+ {
+  "id": 142,
+  "d": 6,
+  "obj": "6.6",
+  "q": "What does this print?",
+  "code": "import os\np = os.path.join(\"reports\", \"2026\", \"summary.csv\")\nprint(os.path.basename(p), os.path.dirname(p) != \"\", os.path.splitext(p)[1])",
+  "opts": [
+   "`summary.csv True .csv`",
+   "`summary True .csv`",
+   "`summary.csv True csv`",
+   "`reports True .csv`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`basename` returns the last component, `dirname` everything before it, and `splitext` splits into stem and extension with the dot kept on the extension."
+ },
+ {
+  "id": 143,
+  "d": 7,
+  "obj": "7.1",
+  "q": "How do you get Tkinter?",
+  "code": null,
+  "opts": [
+   "It ships with the standard CPython installation - `import tkinter` works with no install step",
+   "`pip install tkinter`",
+   "`pip install tk`",
+   "It must be downloaded from the Tcl website"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Tkinter is part of the standard library on a normal CPython install, so no `pip install` is needed - and `pip install tkinter` fails, which confuses beginners. Some Linux distributions package it separately as `python3-tk`."
+ },
+ {
+  "id": 144,
+  "d": 7,
+  "obj": "7.1",
+  "q": "What distinguishes a GUI program from a command-line program?",
+  "code": null,
+  "opts": [
+   "The user acts on visible widgets and the program responds to events, rather than reading a fixed sequence of input",
+   "A GUI program cannot read or write files",
+   "A GUI program runs faster",
+   "A GUI program needs no main loop"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "A GUI presents widgets and reacts to events in whatever order the user produces them. A command-line program follows its own fixed sequence. That inversion of control is the core idea of the domain."
+ },
+ {
+  "id": 145,
+  "d": 7,
+  "obj": "7.1",
+  "q": "What does `root.mainloop()` do?",
+  "code": null,
+  "opts": [
+   "It starts the event loop, which waits for user actions and dispatches them to handlers - the call blocks until the window closes",
+   "It draws the window once and returns immediately",
+   "It repeatedly redraws the window sixty times a second",
+   "It is optional decoration"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`mainloop()` starts the event loop: it waits for events and dispatches them to the bound handlers, and it does not return until the window is closed. Nothing appears without it."
+ },
+ {
+  "id": 146,
+  "d": 7,
+  "obj": "7.2",
+  "q": "Match the widget to its job. Which two pairings are correct?",
+  "code": null,
+  "opts": [
+   "`Label` displays text or an image the user cannot edit",
+   "`Entry` accepts a single line of typed text",
+   "`Button` displays scrollable multi-line text",
+   "`Frame` accepts numeric input only"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "`Label` shows non-editable text or an image, `Entry` takes one line of typed input. `Button` triggers a command, and `Frame` is an invisible container used to group widgets. Multi-line text is the `Text` widget."
+ },
+ {
+  "id": 147,
+  "d": 7,
+  "obj": "7.2",
+  "q": "Which call reads what the user typed into an `Entry` widget named `box`?",
+  "code": null,
+  "opts": [
+   "`box.get()`",
+   "`box.text`",
+   "`box.value()`",
+   "`box.read()`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`Entry.get()` returns the current contents as a string. There is no `.text` attribute holding the value; `insert()` and `delete()` are the write side."
+ },
+ {
+  "id": 148,
+  "d": 7,
+  "obj": "7.2",
+  "q": "Which widget holds multi-line, editable text?",
+  "code": null,
+  "opts": [
+   "`Text`",
+   "`Label`",
+   "`Entry`",
+   "`Message`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`Text` is the multi-line editable widget. `Label` and `Message` display text without editing, and `Entry` is single-line."
+ },
+ {
+  "id": 149,
+  "d": 7,
+  "obj": "7.3",
+  "q": "What does this pass to the button, and what is the bug?",
+  "code": "import tkinter as tk\n\ndef say_hi():\n    print(\"hi\")\n\nroot = tk.Tk()\nb = tk.Button(root, command=say_hi())",
+  "opts": [
+   "`say_hi()` calls the function immediately and passes its return value `None`; the button gets no callback. Pass `command=say_hi` with no parentheses",
+   "It works correctly - the parentheses are required",
+   "It raises a `TypeError` at the `Button` call",
+   "The button will call `say_hi` twice"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "`command=say_hi()` runs the function right there and hands the button its return value, so the message prints once at startup and the button then does nothing. Pass the function object itself: `command=say_hi`. Use `lambda: say_hi(arg)` when you need arguments."
+ },
+ {
+  "id": 150,
+  "d": 7,
+  "obj": "7.3",
+  "q": "Which method attaches a handler to an event such as a key press or a mouse click?",
+  "code": null,
+  "opts": [
+   "`widget.bind(\"<Button-1>\", handler)`",
+   "`widget.on(\"click\", handler)`",
+   "`widget.listen(\"<Button-1>\", handler)`",
+   "`widget.attach(\"<Button-1>\", handler)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`bind(sequence, handler)` connects an event to a callback, with sequences such as `<Button-1>` for a left click and `<Return>` for the Enter key. The handler receives an event object."
+ },
+ {
+  "id": 151,
+  "d": 7,
+  "obj": "7.3",
+  "q": "What does \"event-driven programming\" mean?",
+  "code": null,
+  "opts": [
+   "The program sets up handlers and then waits; the order in which code runs is decided by what the user does",
+   "The program runs its statements top to bottom and exits",
+   "Every function is called on a timer",
+   "Events are processed only when the program is idle"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "In an event-driven program you register handlers and hand control to the event loop; the user decides what runs and when. That is why a GUI has no single top-to-bottom path through the code."
+ },
+ {
+  "id": 152,
+  "d": 7,
+  "obj": "7.4",
+  "q": "Which three geometry managers does Tkinter provide?",
+  "code": null,
+  "opts": [
+   "`pack`, `grid` and `place`",
+   "`pack`, `align` and `float`",
+   "`layout`, `grid` and `anchor`",
+   "`row`, `column` and `cell`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "Tkinter has exactly three geometry managers: `pack` stacks against a side, `grid` uses rows and columns, and `place` uses explicit coordinates."
+ },
+ {
+  "id": 153,
+  "d": 7,
+  "obj": "7.4",
+  "q": "What goes wrong when you call `pack()` on one widget and `grid()` on another inside the same parent container?",
+  "code": null,
+  "opts": [
+   "Tkinter raises an error - a single container may be managed by only one geometry manager",
+   "Both are honoured and the widgets overlap",
+   "The second call is silently ignored",
+   "Nothing - mixing them is the recommended approach"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "A container may be managed by one geometry manager only; mixing `pack` and `grid` in the same parent raises `TclError`. You can still use different managers in different frames, which is the normal way to build a mixed layout."
+ },
+ {
+  "id": 154,
+  "d": 7,
+  "obj": "7.4",
+  "q": "In `widget.grid(row=1, column=2)`, what do the numbers mean?",
+  "code": null,
+  "opts": [
+   "The row and column of the cell the widget occupies in its parent's grid, counted from 0",
+   "The pixel offset from the top-left of the window",
+   "The width and height of the widget",
+   "The stacking order of the widget"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`row` and `column` are the grid cell coordinates within the parent, numbered from zero. `sticky`, `rowspan` and `columnspan` refine the placement."
+ },
+ {
+  "id": 155,
+  "d": 7,
+  "obj": "7.4",
+  "q": "Which two statements about `pack()` are true?",
+  "code": null,
+  "opts": [
+   "It places widgets in order against one side of the container",
+   "`side` accepts values such as `\"top\"`, `\"left\"`, `\"right\"` and `\"bottom\"`",
+   "It positions widgets at exact pixel coordinates",
+   "It requires `row` and `column` arguments"
+  ],
+  "ans": [
+   0,
+   1
+  ],
+  "multi": true,
+  "src": "docs",
+  "scen": false,
+  "exp": "`pack` places each widget against a side of the remaining space, controlled by `side` with `top`, `left`, `right` or `bottom`. Exact coordinates are `place`, and `row`/`column` belong to `grid`."
+ },
+ {
+  "id": 156,
+  "d": 7,
+  "obj": "7.5",
+  "q": "What is `root = tk.Tk()`?",
+  "code": null,
+  "opts": [
+   "The main application window, created once and used as the parent for the other widgets",
+   "A dialog box",
+   "The event loop itself",
+   "A layout manager"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": false,
+  "exp": "`Tk()` creates the main window. Every other widget takes it - or a frame inside it - as its parent, and `mainloop()` is called on it. Extra windows use `Toplevel()`."
+ },
+ {
+  "id": 157,
+  "d": 7,
+  "obj": "7.5",
+  "q": "A beginner creates a `Label` and calls `mainloop()`, but the window is empty. What is missing?",
+  "code": "import tkinter as tk\nroot = tk.Tk()\nlbl = tk.Label(root, text=\"hello\")\nroot.mainloop()",
+  "opts": [
+   "The label was never handed to a geometry manager - it needs `lbl.pack()`, `lbl.grid()` or `lbl.place()`",
+   "`Label` needs a `visible=True` argument",
+   "`mainloop()` must be called on the label",
+   "The text argument must be a variable"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": false,
+  "exp": "Creating a widget does not display it. Until a geometry manager is called it has no place in the layout and nothing is drawn, so the window opens empty with no error. This is the most common first Tkinter bug."
+ },
+ {
+  "id": 158,
+  "d": 1,
+  "obj": "1.4",
+  "q": "A function is supposed to start with an empty list every call. Why does the second call print two items?",
+  "code": "def collect(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\nprint(collect(\"a\"))\nprint(collect(\"b\"))",
+  "opts": [
+   "The default `[]` is created once when the function is defined, so every call that omits `bucket` shares the same list — use `bucket=None` and build the list inside",
+   "`append` returns a new list each time",
+   "Python caches the return value of the first call",
+   "The second call reuses the first call's argument by name"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "A default argument is evaluated once, when the `def` runs — not on each call. So every call that omits `bucket` appends to the same list, and it grows for the life of the program. The fix is `def collect(item, bucket=None):` then `if bucket is None: bucket = []`. This is the single most-cited Python gotcha and it is worth recognising instantly."
+ },
+ {
+  "id": 159,
+  "d": 1,
+  "obj": "1.3",
+  "q": "Two lists hold the same values. Why does one comparison print `True` and the other `False`?",
+  "code": "a = [1, 2]\nb = [1, 2]\nprint(a == b, a is b)",
+  "opts": [
+   "`==` compares the values, `is` compares identity — they are equal lists but two separate objects",
+   "`is` is a faster spelling of `==` and this output is a bug",
+   "`a` and `b` point at the same object, so both should be `True`",
+   "Lists cannot be compared with `==`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`==` asks \"same value\", `is` asks \"same object in memory\". Two separately built lists are equal but not identical. Use `is` only for `None`, `True` and `False`; everywhere else you almost always mean `==`."
+ },
+ {
+  "id": 160,
+  "d": 1,
+  "obj": "1.3",
+  "q": "A price check keeps failing even though the arithmetic looks right. What is going on?",
+  "code": "total = 0.1 + 0.2\nprint(total == 0.3, round(total, 2) == 0.3)",
+  "opts": [
+   "Floats are stored in binary and `0.1 + 0.2` is very slightly more than `0.3`, so compare with rounding or a tolerance rather than `==`",
+   "Python cannot add two floats",
+   "`0.3` is being read as a string",
+   "`round()` is broken for two decimal places"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Binary floating point cannot represent 0.1 or 0.2 exactly, so the sum is 0.30000000000000004. Never compare floats with `==`; round, or test that the difference is below a small tolerance. Money is better handled with `decimal.Decimal` or whole pence as integers."
+ },
+ {
+  "id": 161,
+  "d": 1,
+  "obj": "1.4",
+  "q": "A loop that should print three lines prints only one. What is wrong?",
+  "code": "for n in [1, 2, 3]:\n    print(n)\n    break",
+  "opts": [
+   "`break` leaves the loop on the first pass — `continue` is what skips to the next item",
+   "`print` consumes the rest of the list",
+   "The list needs to be wrapped in `range()`",
+   "`break` is only valid inside `while`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`break` ends the whole loop on the first iteration. `continue` is the one that skips the rest of the current pass and moves to the next item. Mixing them up is a very common first-week error."
+ },
+ {
+  "id": 162,
+  "d": 2,
+  "obj": "2.1",
+  "q": "A script removes every `2` from a list, but one survives. Why?",
+  "code": "nums = [1, 2, 2, 3]\nfor n in nums:\n    if n == 2:\n        nums.remove(n)\nprint(nums)",
+  "opts": [
+   "Removing from a list while iterating it shifts the remaining items back, so the loop skips one — build a new list instead",
+   "`remove()` deletes only the last match",
+   "The loop stops as soon as it removes anything",
+   "`remove()` needs an index, not a value"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "The loop walks by position while `remove()` shifts everything left, so after removing index 1 the loop moves to index 2 and steps straight over the second `2`. Iterate over a copy (`for n in nums[:]`) or build a new list with a comprehension."
+ },
+ {
+  "id": 163,
+  "d": 2,
+  "obj": "2.3",
+  "q": "What happens here, and what is the fix?",
+  "code": "scores = {\"a\": 1, \"b\": 2}\ntry:\n    for k in scores:\n        if k == \"a\":\n            del scores[k]\n    print(scores)\nexcept RuntimeError as e:\n    print(\"RuntimeError\")",
+  "opts": [
+   "`RuntimeError` — a dictionary cannot change size while it is being iterated; iterate over `list(scores)` instead",
+   "`{'b': 2}` — deleting during iteration is fine",
+   "`KeyError`",
+   "it loops forever"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Adding or deleting keys during iteration raises `RuntimeError: dictionary changed size during iteration`. Iterate over a snapshot — `for k in list(scores)` — or collect the keys to delete and remove them afterwards."
+ },
+ {
+  "id": 164,
+  "d": 2,
+  "obj": "2.2",
+  "q": "A tuple is meant to be unchangeable, so why does this work — and why does the second line still fail?",
+  "code": "t = (1, [2, 3])\nt[1].append(4)\nprint(t)\ntry:\n    {t}\nexcept TypeError:\n    print(\"unhashable\")",
+  "opts": [
+   "The tuple's own contents are fixed, but a list stored inside it can still be changed — and that mutability is why the tuple cannot be hashed",
+   "Tuples are fully mutable",
+   "`append` on a tuple element raises `TypeError`",
+   "The tuple becomes a list after the append"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "A tuple fixes *which objects* it holds, not whether those objects can change. The inner list is still mutable. And because that list is unhashable, the whole tuple becomes unhashable too, so it cannot go in a set or be a dictionary key."
+ },
+ {
+  "id": 165,
+  "d": 2,
+  "obj": "2.4",
+  "q": "Why does building this set fail, and what fixes it?",
+  "code": "try:\n    tags = {[\"a\", \"b\"], [\"c\"]}\nexcept TypeError:\n    tags = {(\"a\", \"b\"), (\"c\",)}\nprint(len(tags))",
+  "opts": [
+   "Set members must be hashable and a list is not — use tuples",
+   "A set cannot hold more than one item of the same length",
+   "Sets cannot hold sequences at all",
+   "The braces make a dictionary, so it needs keys"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Set members must be hashable, and lists are not because they can change. Convert to tuples. The same rule governs dictionary keys — note `(\"c\",)` needs the trailing comma to be a tuple."
+ },
+ {
+  "id": 166,
+  "d": 3,
+  "obj": "3.2",
+  "q": "Two carts are created and one item is added, but both carts show it. What is wrong?",
+  "code": "class Cart:\n    items = []\n    def add(self, thing):\n        self.items.append(thing)\n\na, b = Cart(), Cart()\na.add(\"apple\")\nprint(b.items)",
+  "opts": [
+   "`items` is a class attribute shared by every instance — create it per instance with `self.items = []` inside `__init__`",
+   "`a` and `b` are the same object",
+   "`append` writes to every list in the program",
+   "`self.items` is a typo for `Cart.items`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`items = []` in the class body creates one list shared by every instance, so both carts see the apple. Assign it in `__init__` with `self.items = []` and each instance gets its own. A mutable class attribute is the OOP twin of the mutable default argument in Q158."
+ },
+ {
+  "id": 167,
+  "d": 3,
+  "obj": "3.1",
+  "q": "A record has data but no behaviour, and is only ever read. What is the reasonable design call?",
+  "code": null,
+  "opts": [
+   "A dictionary or a small data class is enough — a class earns its place when data and behaviour belong together, not for grouping values alone",
+   "Always use a class; dictionaries are never appropriate",
+   "Always use a dictionary; classes are only for inheritance",
+   "Use a tuple, because classes cannot hold read-only data"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Classes earn their place when data and the behaviour that acts on it belong together. Values with no behaviour are usually better as a dictionary or a small data class. \"Use a class for everything\" produces classes that are dictionaries with extra typing."
+ },
+ {
+  "id": 168,
+  "d": 3,
+  "obj": "3.3",
+  "q": "Why does the second instance not see the change?",
+  "code": "class Config:\n    debug = False\n\na, b = Config(), Config()\na.debug = True\nprint(a.debug, b.debug, Config.debug)",
+  "opts": [
+   "Assigning through the instance creates a new instance attribute that shadows the class attribute for that object only",
+   "`Config.debug` is copied to each instance at creation",
+   "`a` and `b` are the same object",
+   "it raises an `AttributeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Reading falls back to the class, but *writing* always creates an instance attribute. So `a.debug = True` shadows the class attribute for `a` alone, and `b` and `Config` are untouched. Set it on the class (`Config.debug = True`) if you meant it globally."
+ },
+ {
+  "id": 169,
+  "d": 3,
+  "obj": "3.6",
+  "q": "In the line `report.export(\"csv\")`, name the parts in order: `report`, `export`, and `\"csv\"`.",
+  "code": null,
+  "opts": [
+   "An instance, a method, and an argument",
+   "A class, an attribute, and a parameter",
+   "A module, a function, and a return value",
+   "An object, a constructor, and an instance"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": true,
+  "exp": "`report` is an instance, `export` is a method on its class, and `\"csv\"` is the argument passed to that method. The parameter is the name inside the method definition that receives it; the argument is the value at the call site."
+ },
+ {
+  "id": 170,
+  "d": 3,
+  "obj": "3.7",
+  "q": "A balance must never go negative, but this lets it. What is the encapsulation fix?",
+  "code": "class Account:\n    def __init__(self):\n        self.balance = 0\n\nacc = Account()\nacc.balance = -50\nprint(acc.balance)",
+  "opts": [
+   "Keep the value internal and expose a method or `property` that validates before assigning, so the rule cannot be bypassed by writing the attribute directly",
+   "Rename the attribute to `__balance`, which makes it impossible to change",
+   "Declare `balance` as `private`",
+   "Nothing — a negative balance is not preventable in Python"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Encapsulation is about controlling access, not hiding names. Keep the value internal and put the rule in a `property` setter or a method, so an invalid assignment raises rather than silently succeeding. Renaming to `__balance` only mangles the name — `acc._Account__balance = -50` still works."
+ },
+ {
+  "id": 171,
+  "d": 3,
+  "obj": "3.9",
+  "q": "The subclass loses the parent's setup. What is missing?",
+  "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        self.breed = breed\n\ntry:\n    print(Dog(\"Rex\", \"lab\").name)\nexcept AttributeError:\n    print(\"AttributeError\")",
+  "opts": [
+   "`AttributeError` — the overriding `__init__` never calls `super().__init__(name)`, so `name` is never set",
+   "`Rex` — the parent's `__init__` runs automatically",
+   "`TypeError` — too many arguments",
+   "`None`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Defining `__init__` in the subclass replaces the parent's; it is not added to it. Without `super().__init__(name)` the parent's setup never runs and `name` is never assigned, so the attribute lookup fails at use, far from the real cause."
+ },
+ {
+  "id": 172,
+  "d": 3,
+  "obj": "3.10",
+  "q": "A subclass sets what looks like the same private attribute, but the parent's method still returns the old value. Why?",
+  "code": "class Base:\n    def __init__(self):\n        self.__value = 1\n    def get(self):\n        return self.__value\n\nclass Child(Base):\n    def __init__(self):\n        super().__init__()\n        self.__value = 2\n\nc = Child()\nprint(c.get(), c._Base__value, c._Child__value)",
+  "opts": [
+   "`1 1 2` — the double underscore is mangled per class, so `Base` and `Child` end up with two separate attributes",
+   "`2 2 2` — they are the same attribute",
+   "`1 1 1`",
+   "it raises an `AttributeError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Name mangling is per class: `Base.__value` becomes `_Base__value` and `Child.__value` becomes `_Child__value`. They are two different attributes, so `Base.get()` still reads its own. That isolation is exactly what mangling is for — it prevents a subclass clobbering a parent's internals by accident."
+ },
+ {
+  "id": 173,
+  "d": 3,
+  "obj": "3.9",
+  "q": "A subclass replaces a method but should still run the parent's version first. What does that?",
+  "code": "class Logger:\n    def write(self, msg):\n        return \"[log] \" + msg\n\nclass Timestamped(Logger):\n    def write(self, msg):\n        return super().write(\"09:00 \" + msg)\n\nprint(Timestamped().write(\"started\"))",
+  "opts": [
+   "`[log] 09:00 started` — `super().write()` calls the parent's version from inside the override",
+   "`09:00 started` — the parent's version is discarded",
+   "it raises a `RecursionError`",
+   "`[log] started`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`super().write(...)` calls the parent implementation from inside the override, so the subclass can extend rather than replace. Calling `self.write(...)` instead would recurse forever."
+ },
+ {
+  "id": 174,
+  "d": 4,
+  "obj": "4.3",
+  "q": "A student saves a practice file as `random.py` in their project folder. Their other script then fails on `random.randint(1, 6)`. Why?",
+  "code": null,
+  "opts": [
+   "Their own file shadows the standard library module of the same name, because the script's own directory comes first on the import path — rename the file",
+   "`randint` was removed from the standard library",
+   "Two modules cannot have the same name anywhere on a machine",
+   "The file must be deleted from `__pycache__` first"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "The script's own directory is first on `sys.path`, so a local `random.py` is found before the standard library's. Every `import random` in that folder then gets the wrong module. Avoid naming files after standard modules — `random.py`, `string.py`, `math.py`, `email.py` are all common casualties."
+ },
+ {
+  "id": 175,
+  "d": 4,
+  "obj": "4.4",
+  "q": "A helper file prints a test line the moment another script imports it. What is missing?",
+  "code": "# helpers.py\ndef add(a, b):\n    return a + b\n\nprint(\"self test:\", add(1, 2))",
+  "opts": [
+   "The test line needs an `if __name__ == \"__main__\":` guard so it runs only when the file is executed directly",
+   "`print` is not allowed in an imported module",
+   "The function must be defined after the print",
+   "The file needs to be renamed to `__main__.py`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Every top-level statement runs on import. The `if __name__ == \"__main__\":` guard confines self-tests and demo output to direct execution. Without it, importing the module for one function drags along all of its side effects."
+ },
+ {
+  "id": 176,
+  "d": 4,
+  "obj": "4.5",
+  "q": "A folder `utils/` holds `dates.py`, but `from utils.dates import today` raises `ModuleNotFoundError`. What is the most likely cause in the traditional package layout?",
+  "code": null,
+  "opts": [
+   "`utils/` has no `__init__.py`, or the folder containing `utils/` is not on the import path",
+   "`dates.py` must be renamed `__init__.py`",
+   "Packages cannot contain modules",
+   "The import must be written `import utils/dates`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": true,
+  "exp": "In the traditional layout `utils/` needs an `__init__.py`, and the directory that *contains* `utils/` has to be on the import path — usually because it is the script's own folder. Namespace packages can go without `__init__.py`, but at this level the missing file is the likelier cause."
+ },
+ {
+  "id": 177,
+  "d": 4,
+  "obj": "4.7",
+  "q": "A beginner treats a NumPy array like a list and it does not work. Why does `append` fail?",
+  "code": "import numpy as np\na = np.array([1, 2, 3])\nb = np.append(a, 4)\nprint(hasattr(a, \"append\"), a, b)",
+  "opts": [
+   "`False [1 2 3] [1 2 3 4]` — an array has a fixed size, so there is no in-place `append`; `np.append` builds a whole new array",
+   "`True [1 2 3 4] [1 2 3 4]`",
+   "it raises an `AttributeError`",
+   "`False [1 2 3 4] [1 2 3 4]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "An array occupies a fixed block of memory with a fixed size, so there is nothing to append to in place. `np.append` allocates a new array and copies — fine occasionally, expensive in a loop. Collect into a Python list and convert once."
+ },
+ {
+  "id": 178,
+  "d": 4,
+  "obj": "4.8",
+  "q": "Two arrays of different lengths are added and it fails. What does the error mean?",
+  "code": "import numpy as np\ntry:\n    print(np.array([1, 2, 3]) + np.array([10, 20]))\nexcept ValueError:\n    print(\"ValueError\")",
+  "opts": [
+   "`ValueError` — element-wise operations need compatible shapes, and 3 elements cannot line up with 2",
+   "`[11 22 3]` — the shorter array is padded",
+   "`[11 22]` — the longer array is trimmed",
+   "`[1 2 3 10 20]` — they are joined"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Element-wise operations require the shapes to be compatible; broadcasting can stretch a dimension of size 1, but 3 against 2 has no valid alignment, so it raises. This is not concatenation — `np.concatenate` is what joins arrays."
+ },
+ {
+  "id": 179,
+  "d": 4,
+  "obj": "4.9",
+  "q": "A tally of exam marks comes out wrong. What is the difference between these two lines?",
+  "code": "import numpy as np\nmarks = np.array([[60, 70], [80, 90]])\nprint(marks.mean(), marks.mean(axis=1))",
+  "opts": [
+   "`75.0 [65. 85.]` — with no axis the mean is over every element; `axis=1` collapses the columns, giving one mean per row",
+   "`75.0 [70. 80.]`",
+   "`[65. 85.] 75.0`",
+   "`150.0 [65. 85.]`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "With no axis the mean is taken over every element: (60+70+80+90)/4 = 75.0. `axis=1` collapses across the columns, giving a mean per row: 65 and 85. Read the axis as \"the one that disappears\"."
+ },
+ {
+  "id": 180,
+  "d": 4,
+  "obj": "4.2",
+  "q": "A timestamp is needed in the format `2026-08-25`. Which is correct?",
+  "code": "from datetime import datetime\nd = datetime(2026, 8, 25, 14, 30)",
+  "opts": [
+   "`d.strftime(\"%Y-%m-%d\")`",
+   "`d.strftime(\"%y-%M-%D\")`",
+   "`d.format(\"YYYY-MM-DD\")`",
+   "`str(d.date)`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": true,
+  "exp": "`%Y` four-digit year, `%m` zero-padded month, `%d` zero-padded day. `%y` is the two-digit year and `%M` is minutes, so option B silently produces something plausible and wrong — the worst kind of mistake in a timestamp."
+ },
+ {
+  "id": 181,
+  "d": 5,
+  "obj": "5.2",
+  "q": "A script silently does nothing and nobody can work out why. What is wrong with the error handling?",
+  "code": "def load(values):\n    try:\n        return sum(valeus)\n    except:\n        return None\n\nprint(load([1, 2, 3]))",
+  "opts": [
+   "`None` — the bare `except` swallows a `NameError` caused by the typo `valeus`, hiding a bug that has nothing to do with the data",
+   "`6` — Python corrects the misspelling",
+   "it raises a `NameError`",
+   "`0`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`valeus` is a typo, which raises `NameError` — and the bare `except` catches it along with everything else, converting a crash that would have named the line into a silent `None`. Catch the specific exception you expect, and let the ones you did not expect surface."
+ },
+ {
+  "id": 182,
+  "d": 5,
+  "obj": "5.2",
+  "q": "What does this return, and why is it a trap?",
+  "code": "def f():\n    try:\n        return \"try\"\n    finally:\n        return \"finally\"\n\nprint(f())",
+  "opts": [
+   "`finally` — a `return` inside `finally` replaces the one from the `try`, which silently discards the real result",
+   "`try`",
+   "`None`",
+   "it raises a `SyntaxError`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`finally` always runs, and a `return` inside it overrides the value the `try` was about to return. The real result vanishes with no error. Never `return` from `finally` — use it for cleanup only."
+ },
+ {
+  "id": 183,
+  "d": 5,
+  "obj": "5.1",
+  "q": "A handler is meant to catch a bad number but never fires. Why?",
+  "code": "try:\n    n = int(\"twelve\")\nexcept TypeError:\n    print(\"caught\")\nexcept ValueError:\n    print(\"value\")",
+  "opts": [
+   "`value` — the wrong class was tried first; a string that is not a number raises `ValueError`, not `TypeError`",
+   "`caught`",
+   "nothing is printed",
+   "it raises an unhandled exception"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`int(\"twelve\")` gets an acceptable *type* with an unusable *value*, so it raises `ValueError`. The `TypeError` clause is simply never reached. Predicting the exception class is most of writing a handler that works."
+ },
+ {
+  "id": 184,
+  "d": 5,
+  "obj": "5.4",
+  "q": "A custom exception should carry the offending value so the handler can report it. Which works?",
+  "code": "class BadTemp(Exception):\n    pass\n\ntry:\n    raise BadTemp(-40)\nexcept BadTemp as e:\n    print(e.args[0], str(e))",
+  "opts": [
+   "`-40 -40` — the inherited `__init__` stores whatever it is raised with in `args`",
+   "it raises a `TypeError` because the class defines no `__init__`",
+   "`None None`",
+   "`BadTemp -40`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Subclassing `Exception` with an empty body still inherits an `__init__` that stores its arguments in `args`, and `str(e)` returns the single argument. You only need a custom `__init__` when you want extra structured fields."
+ },
+ {
+  "id": 185,
+  "d": 6,
+  "obj": "6.4",
+  "q": "A script writes a report, but the file is empty when another program reads it a moment later. What is missing?",
+  "code": "f = open(\"report.txt\", \"w\")\nf.write(\"done\")\nprint(open(\"report.txt\").read())\nf.close()\nprint(open(\"report.txt\").read())",
+  "opts": [
+   "an empty line then `done` — the text sits in a buffer until the file is closed, which is exactly what `with` guarantees",
+   "`done` then `done`",
+   "it raises a `ValueError`",
+   "an empty line twice"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Writes are buffered and are not guaranteed to reach disk until the file is closed or flushed, so the first read sees an empty file. `with open(...) as f:` closes on the way out including on exception, which is why it is the default advice."
+ },
+ {
+  "id": 186,
+  "d": 6,
+  "obj": "6.2",
+  "q": "A script works from its own folder and fails from anywhere else. Which fix is correct?",
+  "code": null,
+  "opts": [
+   "Build the path from the script's own location, for example `os.path.join(os.path.dirname(os.path.abspath(__file__)), \"data.txt\")`",
+   "Always call `os.chdir()` to the user's home directory first",
+   "Use `open(\"./data.txt\")`, which is always relative to the script",
+   "Move the file to the Python installation directory"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "A relative path resolves against the current working directory, which is wherever the process was launched — not the script's folder. `__file__` gives the script's own location, and building the path from it makes the script runnable from anywhere. `./data.txt` is still relative to the working directory, so option C changes nothing."
+ },
+ {
+  "id": 187,
+  "d": 6,
+  "obj": "6.5",
+  "q": "A script lists a folder and then opens each file, and it fails with `FileNotFoundError` unless it is run from inside that folder. Why?",
+  "code": "import os, tempfile\nd = tempfile.mkdtemp()\nopen(os.path.join(d, \"a.txt\"), \"w\").close()\nprint(os.listdir(d))",
+  "opts": [
+   "`os.listdir()` returns bare names, not paths — rejoin each one with `os.path.join(d, name)` before opening it",
+   "`os.listdir()` returns absolute paths and the script is corrupting them",
+   "`os.listdir()` cannot see files created in the same script",
+   "The folder must be added to `sys.path`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "docs",
+  "scen": true,
+  "exp": "`os.listdir()` returns bare entry names. Opening one only works while the working directory happens to be that folder. Rejoin with `os.path.join(directory, name)` — or use `os.scandir()`, whose entries carry a usable `.path`."
+ },
+ {
+  "id": 188,
+  "d": 7,
+  "obj": "7.5",
+  "q": "A form reads the entry box the moment the window is built and always gets an empty string. Why?",
+  "code": null,
+  "opts": [
+   "The read happens before the event loop starts, so the user has not typed anything yet — read the value inside the button's callback instead",
+   "`Entry.get()` only works after `destroy()`",
+   "`Entry` needs `readable=True`",
+   "The entry must be packed twice"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "Widget code runs to completion *before* `mainloop()` starts accepting input, so a read at build time happens before the user has typed. Read the value inside the callback, which runs in response to the click. This is the practical consequence of event-driven control flow."
+ },
+ {
+  "id": 189,
+  "d": 7,
+  "obj": "7.4",
+  "q": "A window is meant to show a label and a button side by side in a row, then a status bar underneath spanning both. Which manager fits without fighting?",
+  "code": null,
+  "opts": [
+   "`grid`, placing the two widgets at row 0 columns 0 and 1 and the status bar at row 1 with `columnspan=2`",
+   "`place`, with pixel coordinates for all three",
+   "`pack` with `side=\"left\"` for all three",
+   "Mixing `grid` for the row and `pack` for the status bar in the same container"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`grid` is built for rows and columns, and `columnspan=2` is exactly how one widget stretches across both. `pack` with `side=\"left\"` would put the status bar beside them, not under. Option D is the error from Q153 — one container, one geometry manager."
+ },
+ {
+  "id": 190,
+  "d": 7,
+  "obj": "7.3",
+  "q": "A button is built inside a function and the window shows it, but clicking it does nothing and no error appears. Which is the most likely cause?",
+  "code": null,
+  "opts": [
+   "`command` was given the *result* of calling the handler rather than the handler itself, so the button holds `None`",
+   "Buttons cannot be created inside a function",
+   "`mainloop()` must be called on the button",
+   "The button needs `clickable=True`"
+  ],
+  "ans": [
+   0
+  ],
+  "multi": false,
+  "src": "authored",
+  "scen": true,
+  "exp": "`command=handler()` runs the function immediately and hands the button its return value, usually `None` — so the button is wired to nothing and clicking is silent. Pass the function object: `command=handler`, or `command=lambda: handler(arg)` when arguments are needed. Silent failure is what makes it hard to spot."
+ }
+]

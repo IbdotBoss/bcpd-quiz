@@ -324,12 +324,34 @@ parts = [
 ]
 js = "const QS = [\n" + ",\n".join(parts) + "\n];\n"
 
+# A machine-readable sidecar, so anything downstream (the printable study PDF) reads
+# structured data instead of re-parsing the JS we just emitted. Re-parsing your own
+# output format is how a question containing "{n:" ends up rewritten mid-sentence.
+(HERE / "questions.json").write_text(
+    json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
+print(f"Wrote questions.json ({len(out)} records)", file=sys.stderr)
+
 # Inlining the data into index.html keeps the file genuinely self-contained: it opens with a
 # double-click over file:// (where fetch() is CORS-blocked) and can never serve a stale copy.
-START, END = "<script id=\"qdata\">", "</script><!--/qdata-->"
+def inline(html, start_marker, end_marker, payload, what):
+    a, z = html.find(start_marker), html.find(end_marker)
+    if a == -1 or z == -1:
+        sys.exit(f"ERROR: {what} markers not found in index.html")
+    return html[:a + len(start_marker)] + "\n" + payload + html[z:]
+
+
 html = HTML.read_text(encoding="utf-8")
-a, b = html.find(START), html.find(END)
-if a == -1 or b == -1:
-    sys.exit("ERROR: qdata markers not found in index.html")
-HTML.write_text(html[:a + len(START)] + "\n" + js + html[b:], encoding="utf-8")
+html = inline(html, "<script id=\"qdata\">", "</script><!--/qdata-->", js, "qdata")
 print(f"Inlined {len(out)} questions into index.html", file=sys.stderr)
+
+# The tutor's mined bank is built separately (special-extract/build_special.py) because it
+# has a different provenance and no verify blocks. Inlined here only if it has been built.
+SPECIAL_JS = HERE.parent / "special-extract" / "_special.js"
+if SPECIAL_JS.exists():
+    sp = SPECIAL_JS.read_text(encoding="utf-8")
+    html = inline(html, "<script id=\"sdata\">", "</script><!--/sdata-->", sp, "sdata")
+    print(f"Inlined the Special set ({sp.count('{id:')} questions)", file=sys.stderr)
+else:
+    print("No Special set built; leaving that block empty", file=sys.stderr)
+
+HTML.write_text(html, encoding="utf-8")
